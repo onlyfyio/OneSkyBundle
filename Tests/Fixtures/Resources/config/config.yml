@@ -1,0 +1,10 @@
+openclassrooms_one_sky:
+    api_key: api_key
+    api_secret: api_secret
+    project_id: 1
+    file_format: yml
+    locales:
+        - fr
+        - es
+    file_paths:
+        - /

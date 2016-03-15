@@ -1,0 +1,53 @@
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="openclassrooms.one_sky.client" class="Onesky\Api\Client">
+            <call method="setApiKey">
+                <argument type="string">%openclassrooms_one_sky.api_key%</argument>
+            </call>
+            <call method="setSecret">
+                <argument type="string">%openclassrooms_one_sky.api_secret%</argument>
+            </call>
+        </service>
+        <service id="openclassrooms.one_sky.gateways.file" class="OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl\FileGatewayImpl">
+            <call method="setClient">
+                <argument type="service" id="openclassrooms.one_sky.client"/>
+            </call>
+        </service>
+        <service id="openclassrooms.one_sky.model.file_factory" class="OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\FileFactoryImpl">
+            <call method="setFileFormat">
+                <argument type="string">%openclassrooms_one_sky.file_format%</argument>
+            </call>
+            <call method="setKernelRootDir">
+                <argument type="string">%kernel.root_dir%</argument>
+            </call>
+            <call method="setProjectId">
+                <argument type="string">%openclassrooms_one_sky.project_id%</argument>
+            </call>
+            <call method="setSourceLocale">
+                <argument type="string">%openclassrooms_one_sky.source_locale%</argument>
+            </call>
+        </service>
+        <service id="openclassrooms.one_sky.services.file_service" class="OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\FileServiceImpl">
+            <call method="setFileGateway">
+                <argument type="service" id="openclassrooms.one_sky.gateways.file"/>
+            </call>
+        </service>
+        <service id="openclassrooms.one_sky.services.translation_service" class="OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\TranslationServiceImpl">
+            <call method="setFileFactory">
+                <argument type="service" id="openclassrooms.one_sky.model.file_factory"/>
+            </call>
+            <call method="setFileFormat">
+                <argument type="string">%openclassrooms_one_sky.file_format%</argument>
+            </call>
+            <call method="setFileService">
+                <argument type="service" id="openclassrooms.one_sky.services.file_service"/>
+            </call>
+            <call method="setLocales">
+                <argument type="collection">%openclassrooms_one_sky.locales%</argument>
+            </call>
+            <call method="setSourceLocale">
+                <argument type="string">%openclassrooms_one_sky.source_locale%</argument>
+            </call>
+        </service>
+    </services>
+</container>
