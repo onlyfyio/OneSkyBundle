@@ -24,11 +24,17 @@ class TranslationServiceMock implements TranslationService
      */
     public static $updatedFilePaths = [];
 
+    /**
+     * @var string[]
+     */
+    public static $locales = [];
+
     public function __construct()
     {
         self::$pulledFilePaths = [];
         self::$pushedFilePaths = [];
         self::$updatedFilePaths = [];
+        self::$locales = [];
     }
 
     /**
@@ -37,6 +43,8 @@ class TranslationServiceMock implements TranslationService
     public function pull(array $filePaths, array $locales = [])
     {
         self::$pulledFilePaths[] = $filePaths;
+        self::$locales[] = $locales;
+
     }
 
     /**
@@ -53,5 +61,6 @@ class TranslationServiceMock implements TranslationService
     public function update(array $filePaths, array $locales = [])
     {
         self::$updatedFilePaths[] = $filePaths;
+        self::$locales[] = $locales;
     }
 }

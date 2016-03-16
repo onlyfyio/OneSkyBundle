@@ -27,36 +27,52 @@ abstract class Command extends ContainerAwareCommand
      */
     abstract protected function getCommandDescription();
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function executePull(InputInterface $input, OutputInterface $output)
     {
-        $relativeFilePaths = $this->getRelativeFilePaths();
-        $projectDirectory = $this->getProjectDirectory();
+        $output->writeln('Pulling translations for project id: '.$this->getProjectId());
+        $progressBar = $this->createProgressBar($output);
 
         $filePaths = [];
-
-        $progressBar = new ProgressBar($output, count($relativeFilePaths));
-        $progressBar->setFormat(OutputInterface::VERBOSITY_DEBUG);
-
-        foreach ($relativeFilePaths as $relativeFilePath) {
+        $projectDirectory = $this->getProjectDirectory();
+        foreach ($this->getRelativeFilePaths() as $relativeFilePath) {
             $filePath = realpath($projectDirectory.$relativeFilePath);
             $filePaths[$relativeFilePath] = $filePath;
 
-            $this->process($filePath);
+            $this->pull($filePath, $input->getArgument('locales'));
 
             $progressBar->setMessage($relativeFilePath);
             $progressBar->advance();
         }
 
-        $output->writeln('Files: ');
+        $output->writeln('Files pulled: ');
         foreach ($filePaths as $relativeFilePath => $filePath) {
             $output->writeln($relativeFilePath);
         }
     }
 
     /**
+     * @return string
+     */
+    protected function getProjectId()
+    {
+        return $this->getContainer()->getParameter('openclassrooms_one_sky.project_id');
+    }
+
+    /**
+     * @return ProgressBar
+     */
+    protected function createProgressBar(OutputInterface $output)
+    {
+        $progressBar = new ProgressBar($output, count($this->getRelativeFilePaths()));
+        $progressBar->setFormat(OutputInterface::VERBOSITY_DEBUG);
+
+        return $progressBar;
+    }
+
+    /**
      * @return string[]
      */
-    private function getRelativeFilePaths()
+    protected function getRelativeFilePaths()
     {
         return $this->getContainer()->getParameter('openclassrooms_one_sky.file_paths');
     }
@@ -64,10 +80,41 @@ abstract class Command extends ContainerAwareCommand
     /**
      * @return string
      */
-    private function getProjectDirectory()
+    protected function getProjectDirectory()
     {
         return $this->getContainer()->getParameter('kernel.root_dir').'/../';
     }
 
-    abstract protected function process($filePath);
+    private function pull($filePath, array $locales)
+    {
+        $this->getContainer()->get('openclassrooms.one_sky.services.translation_service')->pull([$filePath], $locales);
+    }
+
+    protected function executePush(OutputInterface $output)
+    {
+        $output->writeln('Pushing translations for project id: '.$this->getProjectId());
+        $progressBar = $this->createProgressBar($output);
+
+        $filePaths = [];
+        $projectDirectory = $this->getProjectDirectory();
+        foreach ($this->getRelativeFilePaths() as $relativeFilePath) {
+            $filePath = realpath($projectDirectory.$relativeFilePath);
+            $filePaths[$relativeFilePath] = $filePath;
+
+            $this->push($filePath);
+
+            $progressBar->setMessage($relativeFilePath);
+            $progressBar->advance();
+        }
+
+        $output->writeln('Files pushed: ');
+        foreach ($filePaths as $relativeFilePath => $filePath) {
+            $output->writeln($relativeFilePath);
+        }
+    }
+
+    private function push($filePath)
+    {
+        $this->getContainer()->get('openclassrooms.one_sky.services.translation_service')->push([$filePath]);
+    }
 }

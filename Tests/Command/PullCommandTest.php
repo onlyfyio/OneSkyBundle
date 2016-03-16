@@ -22,10 +22,20 @@ class PullCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function execute()
+    public function without_locales_execute()
     {
         $this->commandTester->execute(['command' => PullCommand::COMMAND_NAME]);
         $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pulledFilePaths);
+    }
+
+    /**
+     * @test
+     */
+    public function with_locales_execute()
+    {
+        $this->commandTester->execute(['command' => PullCommand::COMMAND_NAME, 'locales' => ['es']]);
+        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pulledFilePaths);
+        $this->assertEquals([['es']], TranslationServiceMock::$locales);
     }
 
     /**
