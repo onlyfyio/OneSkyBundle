@@ -36,7 +36,7 @@ trait CommandTestCase
                 'openclassrooms_one_sky.file_paths' => [self::$filePaths],
                 'openclassrooms_one_sky.locales'    => self::$locales,
                 'openclassrooms_one_sky.project_id' => self::$projectId,
-                'kernel.root_dir'                   => __DIR__.'/../'
+                'kernel.root_dir'                   => __DIR__.'/../',
             ],
             ['openclassrooms.one_sky.services.translation_service' => new TranslationServiceMock()]
         );

@@ -26,15 +26,15 @@ class ContainerForTest implements ContainerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function set($id, $service)
     {
-        return null;
+        return;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
     {
@@ -42,23 +42,23 @@ class ContainerForTest implements ContainerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function has($id)
     {
-        return null;
+        return;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function initialized($id)
     {
-        return null;
+        return;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getParameter($name)
     {
@@ -66,18 +66,18 @@ class ContainerForTest implements ContainerInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function hasParameter($name)
     {
-        return null;
+        return;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function setParameter($name, $value)
     {
-        return null;
+        return;
     }
 }

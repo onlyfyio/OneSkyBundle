@@ -39,7 +39,7 @@ class PullCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setUp()
     {

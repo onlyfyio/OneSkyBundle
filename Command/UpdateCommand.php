@@ -37,7 +37,7 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Update translations for project id: '.$this->getProjectId());
+        $output->writeln('Updating translations for project id: '.$this->getProjectId());
         $this->executePull($input, $output);
         $this->executePush($output);
     }

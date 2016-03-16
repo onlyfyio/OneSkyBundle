@@ -38,17 +38,16 @@ class TranslationServiceMock implements TranslationService
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function pull(array $filePaths, array $locales = [])
     {
         self::$pulledFilePaths[] = $filePaths;
         self::$locales[] = $locales;
-
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function push(array $filePaths)
     {
@@ -56,7 +55,7 @@ class TranslationServiceMock implements TranslationService
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function update(array $filePaths, array $locales = [])
     {
