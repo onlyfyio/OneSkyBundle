@@ -25,7 +25,7 @@ class FileGatewayImpl implements FileGateway
     {
         if (!empty($files)) {
             foreach ($files as $file) {
-                $downloadedFile = $this->client->files(self::DOWNLOAD_METHOD, $file->format());
+                $downloadedFile = $this->client->translations(self::DOWNLOAD_METHOD, $file->format());
                 if (false !== $downloadedFile) {
                     file_put_contents($file->getTargetFilePath(), $downloadedFile);
                 }
@@ -39,7 +39,9 @@ class FileGatewayImpl implements FileGateway
     public function upload(array $files)
     {
         if (!empty($files)) {
-            $this->client->files(self::UPLOAD_METHOD, $this->formatFilesToUpload($files));
+            foreach ($this->formatFilesToUpload($files) as $file) {
+                $this->client->files(self::UPLOAD_METHOD, $file);
+            }
         }
     }
 

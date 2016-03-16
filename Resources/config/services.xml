@@ -43,7 +43,7 @@
                 <argument type="service" id="openclassrooms.onesky.services.file_service"/>
             </call>
             <call method="setLocales">
-                <argument type="collection">%openclassrooms_onesky.locales%</argument>
+                <argument>%openclassrooms_onesky.locales%</argument>
             </call>
             <call method="setSourceLocale">
                 <argument type="string">%openclassrooms_onesky.source_locale%</argument>
