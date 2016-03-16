@@ -21,12 +21,16 @@ class FileServiceImpl implements FileService
      */
     public function upload(array $files)
     {
-        $this->fileGateway->upload($files);
+        foreach ($files as $file) {
+            $this->fileGateway->upload($file);
+        }
     }
 
     public function download(array $files)
     {
-        $this->fileGateway->download($files);
+        foreach ($files as $file) {
+            $this->fileGateway->download($file);
+        }
     }
 
     public function setFileGateway(FileGateway $fileGateway)

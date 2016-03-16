@@ -30,16 +30,16 @@ class InMemoryFileGateway implements FileGateway
     /**
      * {@inheritdoc}
      */
-    public function download(array $files)
+    public function download(ExportFile $file)
     {
-        self::$downloadedFiles = $files;
+        self::$downloadedFiles[] = $file;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function upload(array $files)
+    public function upload(UploadFile $file)
     {
-        self::$uploadedFiles = $files;
+        self::$uploadedFiles[] = $file;
     }
 }

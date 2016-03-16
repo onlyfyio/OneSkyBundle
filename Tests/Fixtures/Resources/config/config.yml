@@ -3,6 +3,7 @@ openclassrooms_onesky:
     api_secret: api_secret
     project_id: 1
     file_format: yml
+    source_locale: en
     locales:
         - fr
         - es

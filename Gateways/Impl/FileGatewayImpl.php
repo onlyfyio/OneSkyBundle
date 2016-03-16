@@ -4,8 +4,8 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl;
 
 use Onesky\Api\Client;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\FileGateway;
+use OpenClassrooms\Bundle\OneSkyBundle\Gateways\InvalidContentException;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
-use OpenClassrooms\Bundle\OneSkyBundle\Model\File;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
 
 /**
@@ -19,43 +19,31 @@ class FileGatewayImpl implements FileGateway
     private $client;
 
     /**
-     * @param ExportFile[] $files
+     * @var string
      */
-    public function download(array $files)
+    private $fileFormat;
+
+    /**
+     * @inheritdoc
+     */
+    public function download(ExportFile $file)
     {
-        if (!empty($files)) {
-            foreach ($files as $file) {
-                $downloadedFile = $this->client->translations(self::DOWNLOAD_METHOD, $file->format());
-                if (false !== $downloadedFile) {
-                    file_put_contents($file->getTargetFilePath(), $downloadedFile);
-                }
+        $downloadedContent = $this->client->translations(self::DOWNLOAD_METHOD, $file->format());
+
+        if (in_array($this->fileFormat, ['yml', 'yaml'])) {
+            if (false === yaml_parse($downloadedContent)) {
+                throw new InvalidContentException($downloadedContent);
             }
         }
+        file_put_contents($file->getTargetFilePath(), $downloadedContent);
     }
 
     /**
-     * @param UploadFile[] $files
+     * @inheritdoc
      */
-    public function upload(array $files)
+    public function upload(UploadFile $file)
     {
-        if (!empty($files)) {
-            foreach ($this->formatFilesToUpload($files) as $file) {
-                $this->client->files(self::UPLOAD_METHOD, $file);
-            }
-        }
-    }
-
-    /**
-     * @param File[] $files
-     */
-    private function formatFilesToUpload(array $files)
-    {
-        $formattedFiles = [];
-        foreach ($files as $file) {
-            $formattedFiles[] = $file->format();
-        }
-
-        return $formattedFiles;
+        $this->client->files(self::UPLOAD_METHOD, $file->format());
     }
 
     public function setClient(Client $client)
