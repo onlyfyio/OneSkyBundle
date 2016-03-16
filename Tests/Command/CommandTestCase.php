@@ -33,12 +33,12 @@ trait CommandTestCase
     {
         return new ContainerForTest(
             [
-                'openclassrooms_one_sky.file_paths' => [self::$filePaths],
-                'openclassrooms_one_sky.locales'    => self::$locales,
-                'openclassrooms_one_sky.project_id' => self::$projectId,
-                'kernel.root_dir'                   => __DIR__.'/../',
+                'openclassrooms_onesky.file_paths' => [self::$filePaths],
+                'openclassrooms_onesky.locales'    => self::$locales,
+                'openclassrooms_onesky.project_id' => self::$projectId,
+                'kernel.root_dir'                  => __DIR__.'/../',
             ],
-            ['openclassrooms.one_sky.services.translation_service' => new TranslationServiceMock()]
+            ['openclassrooms.onesky.services.translation_service' => new TranslationServiceMock()]
         );
     }
 }

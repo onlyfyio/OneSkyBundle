@@ -55,7 +55,7 @@ abstract class Command extends ContainerAwareCommand
      */
     protected function getProjectId()
     {
-        return $this->getContainer()->getParameter('openclassrooms_one_sky.project_id');
+        return $this->getContainer()->getParameter('openclassrooms_onesky.project_id');
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class Command extends ContainerAwareCommand
      */
     protected function getRelativeFilePaths()
     {
-        return $this->getContainer()->getParameter('openclassrooms_one_sky.file_paths');
+        return $this->getContainer()->getParameter('openclassrooms_onesky.file_paths');
     }
 
     /**
@@ -87,7 +87,7 @@ abstract class Command extends ContainerAwareCommand
 
     private function pull($filePath, array $locales)
     {
-        $this->getContainer()->get('openclassrooms.one_sky.services.translation_service')->pull([$filePath], $locales);
+        $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->pull([$filePath], $locales);
     }
 
     protected function executePush(OutputInterface $output)
@@ -115,6 +115,6 @@ abstract class Command extends ContainerAwareCommand
 
     private function push($filePath)
     {
-        $this->getContainer()->get('openclassrooms.one_sky.services.translation_service')->push([$filePath]);
+        $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->push([$filePath]);
     }
 }

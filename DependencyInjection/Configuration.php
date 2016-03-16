@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('openclassrooms_one_sky');
+        $rootNode = $treeBuilder->root('openclassrooms_onesky');
         $rootNode->children()
             ->scalarNode('api_key')->isRequired()->cannotBeEmpty()->end()
             ->scalarNode('api_secret')->isRequired()->cannotBeEmpty()->end()
