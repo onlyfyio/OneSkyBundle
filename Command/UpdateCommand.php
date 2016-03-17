@@ -2,7 +2,6 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -18,8 +17,7 @@ class UpdateCommand extends Command
     protected function configure()
     {
         $this->setName($this->getCommandName())
-            ->setDescription($this->getCommandDescription())
-            ->addArgument('locales', InputArgument::IS_ARRAY, 'Requested locales', []);
+            ->setDescription($this->getCommandDescription());
     }
 
     /**
@@ -37,8 +35,7 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Updating translations for project id: '.$this->getProjectId());
-        $this->executePull($input, $output);
-        $this->executePush($output);
+        $output->writeln('Updating translations: ');
+        $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->update();
     }
 }

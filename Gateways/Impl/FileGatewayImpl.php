@@ -3,11 +3,14 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl;
 
 use Onesky\Api\Client;
+use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationDownloadTranslationEvent;
+use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationUploadTranslationEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\FileGateway;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\InvalidContentException;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\NonExistingTranslationException;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -20,12 +23,12 @@ class FileGatewayImpl implements FileGateway
     private $client;
 
     /**
-     * @var string
+     * @var EventDispatcher
      */
-    private $fileFormat;
+    private $eventDispatcher;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function downloadTranslations(array $files)
     {
@@ -34,7 +37,6 @@ class FileGatewayImpl implements FileGateway
             try {
                 $downloadedFiles[] = $this->downloadTranslation($file);
             } catch (NonExistingTranslationException $ne) {
-
             }
         }
 
@@ -42,10 +44,17 @@ class FileGatewayImpl implements FileGateway
     }
 
     /**
-     * @inheritdoc
+     * @return ExportFile
+     *
+     * @throws InvalidContentException
+     * @throws NonExistingTranslationException
      */
     private function downloadTranslation(ExportFile $file)
     {
+        $this->eventDispatcher->dispatch(
+            TranslationDownloadTranslationEvent::getEventName(),
+            new TranslationDownloadTranslationEvent($file)
+        );
         $downloadedContent = $this->client->translations(self::DOWNLOAD_METHOD, $file->format());
         $this->checkTranslation($downloadedContent, $file);
         file_put_contents($file->getTargetFilePath(), $downloadedContent);
@@ -69,7 +78,7 @@ class FileGatewayImpl implements FileGateway
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function uploadTranslations(array $files)
     {
@@ -82,10 +91,14 @@ class FileGatewayImpl implements FileGateway
     }
 
     /**
-     * @inheritdoc
+     * @return UploadFile
      */
     private function uploadTranslation(UploadFile $file)
     {
+        $this->eventDispatcher->dispatch(
+            TranslationDownloadTranslationEvent::getEventName(),
+            new TranslationUploadTranslationEvent($file)
+        );
         $this->client->files(self::UPLOAD_METHOD, $file->format());
 
         return $file;
@@ -96,8 +109,8 @@ class FileGatewayImpl implements FileGateway
         $this->client = $client;
     }
 
-    public function setFileFormat($fileFormat)
+    public function setEventDispatcher(EventDispatcher $eventDispatcher)
     {
-        $this->fileFormat = $fileFormat;
+        $this->eventDispatcher = $eventDispatcher;
     }
 }

@@ -3,7 +3,9 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\Services\Impl;
 
 use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationPostPullEvent;
+use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationPostPushEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationPrePullEvent;
+use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationPrePushEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationUpdateEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\FileFactory;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\FileService;
@@ -23,6 +25,11 @@ class TranslationServiceImpl implements TranslationService
     private $eventDispatcher;
 
     /**
+     * @var string[]
+     */
+    private $filePaths;
+
+    /**
      * @var FileFactory
      */
     private $fileFactory;
@@ -40,7 +47,7 @@ class TranslationServiceImpl implements TranslationService
     /**
      * @var string[]
      */
-    private $locales;
+    private $requestedLocales;
 
     /**
      * @var string
@@ -50,14 +57,11 @@ class TranslationServiceImpl implements TranslationService
     /**
      * {@inheritdoc}
      */
-    public function update(array $filePaths, array $locales = [])
+    public function update(array $filePaths = [], array $locales = [])
     {
         $this->eventDispatcher->dispatch(TranslationUpdateEvent::getEventName(), new TranslationUpdateEvent());
 
-        $pulledFiles = $this->pull($filePaths, $locales);
-        $pushedFiles = $this->push($filePaths);
-
-        return [$pulledFiles, $pushedFiles];
+        return [$this->pull($filePaths, $locales), $this->push($filePaths)];
     }
 
     /**
@@ -65,12 +69,10 @@ class TranslationServiceImpl implements TranslationService
      */
     public function pull(array $filePaths, array $locales = [])
     {
-        $files = Finder::create()->files()->in($filePaths)->name('*.'.$this->sourceLocale.'.'.$this->fileFormat);
         $exportFiles = [];
-        $locales = empty($locales) ? $this->locales : $locales;
         /** @var SplFileInfo $file */
-        foreach ($files as $file) {
-            foreach ($locales as $locale) {
+        foreach ($this->getFiles($filePaths) as $file) {
+            foreach ($this->getRequestedLocales($locales) as $locale) {
                 $exportFiles[] = $this->fileFactory->createExportFile($file->getRealpath(), $locale);
             }
         }
@@ -81,28 +83,81 @@ class TranslationServiceImpl implements TranslationService
         );
 
         $downloadedFiles = $this->fileService->download($exportFiles);
+
         $this->eventDispatcher->dispatch(
             TranslationPostPullEvent::getEventName(),
             new TranslationPostPullEvent($downloadedFiles)
         );
 
         return $downloadedFiles;
+    }
 
+    /**
+     * @return Finder
+     */
+    private function getFiles(array $filePaths)
+    {
+        return Finder::create()
+            ->files()
+            ->in($this->getFilePaths($filePaths))
+            ->name('*.'.$this->sourceLocale.'.'.$this->fileFormat);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getFilePaths(array $filePaths)
+    {
+        return empty($filePaths) ? $this->filePaths : $filePaths;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getRequestedLocales(array $locales)
+    {
+        return empty($locales) ? $this->requestedLocales : $locales;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function push(array $filePaths)
+    public function push(array $filePaths, array $locales = [])
     {
-        $files = Finder::create()->files()->in($filePaths)->name('*.'.$this->sourceLocale.'.'.$this->fileFormat);
         $uploadFiles = [];
         /** @var SplFileInfo $file */
-        foreach ($files as $file) {
-            $uploadFiles[] = $this->fileFactory->createUploadFile($file->getRealpath());
+        foreach ($this->getFiles($filePaths) as $file) {
+            foreach ($this->getSourceLocales($locales) as $locale) {
+                $uploadFiles[] = $this->fileFactory->createUploadFile($file->getRealpath(), $locale);
+            }
         }
 
-        return $this->fileService->upload($uploadFiles);
+        $this->eventDispatcher->dispatch(
+            TranslationPrePushEvent::getEventName(),
+            new TranslationPrePushEvent($uploadFiles)
+        );
+
+        $uploadedFiles = $this->fileService->upload($uploadFiles);
+
+        $this->eventDispatcher->dispatch(
+            TranslationPostPushEvent::getEventName(),
+            new TranslationPostPushEvent($uploadedFiles)
+        );
+
+        return $uploadedFiles;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getSourceLocales(array $locales)
+    {
+        return empty($locales) ? [$this->sourceLocale] : $locales;
+    }
+
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function setFileFactory(FileFactory $fileFactory)
@@ -120,9 +175,9 @@ class TranslationServiceImpl implements TranslationService
         $this->fileService = $fileService;
     }
 
-    public function setLocales(array $locales)
+    public function setRequestedLocales(array $requestedLocales)
     {
-        $this->locales = $locales;
+        $this->requestedLocales = $requestedLocales;
     }
 
     public function setSourceLocale($sourceLocale)

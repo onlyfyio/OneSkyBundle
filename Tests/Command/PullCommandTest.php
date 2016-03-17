@@ -25,7 +25,7 @@ class PullCommandTest extends \PHPUnit_Framework_TestCase
     public function without_locales_execute()
     {
         $this->commandTester->execute(['command' => PullCommand::COMMAND_NAME]);
-        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pulledFilePaths);
+        $this->assertEquals([], TranslationServiceMock::$locales);
     }
 
     /**
@@ -33,9 +33,26 @@ class PullCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function with_locales_execute()
     {
-        $this->commandTester->execute(['command' => PullCommand::COMMAND_NAME, 'locales' => ['es']]);
-        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pulledFilePaths);
-        $this->assertEquals([['es']], TranslationServiceMock::$locales);
+        $this->commandTester->execute(['command' => PullCommand::COMMAND_NAME, '--locales' => ['es']]);
+        $this->assertEquals(['es'], TranslationServiceMock::$locales);
+    }
+
+    /**
+     * @test
+     */
+    public function without_filePaths_execute()
+    {
+        $this->commandTester->execute(['command' => PullCommand::COMMAND_NAME]);
+        $this->assertEquals([], TranslationServiceMock::$pulledFilePaths);
+    }
+
+    /**
+     * @test
+     */
+    public function with_filePath_execute()
+    {
+        $this->commandTester->execute(['command' => PullCommand::COMMAND_NAME, '--filePaths' => [self::$filePaths]]);
+        $this->assertEquals([self::$filePaths], TranslationServiceMock::$pulledFilePaths);
     }
 
     /**

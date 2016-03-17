@@ -8,12 +8,13 @@
                 <argument type="string">%openclassrooms_onesky.api_secret%</argument>
             </call>
         </service>
+        <service id="openclassrooms.onesky.event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher"/>
         <service id="openclassrooms.onesky.gateways.file" class="OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl\FileGatewayImpl">
             <call method="setClient">
                 <argument type="service" id="openclassrooms.onesky.client"/>
             </call>
-            <call method="setFileFormat">
-                <argument type="string">%openclassrooms_onesky.file_format%</argument>
+            <call method="setEventDispatcher">
+                <argument type="service" id="openclassrooms.onesky.event_dispatcher"/>
             </call>
         </service>
         <service id="openclassrooms.onesky.model.file_factory" class="OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\FileFactoryImpl">
@@ -36,6 +37,9 @@
             </call>
         </service>
         <service id="openclassrooms.onesky.services.translation_service" class="OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\TranslationServiceImpl">
+            <call method="setEventDispatcher">
+                <argument type="service" id="openclassrooms.onesky.event_dispatcher"/>
+            </call>
             <call method="setFileFactory">
                 <argument type="service" id="openclassrooms.onesky.model.file_factory"/>
             </call>
@@ -45,7 +49,7 @@
             <call method="setFileService">
                 <argument type="service" id="openclassrooms.onesky.services.file_service"/>
             </call>
-            <call method="setLocales">
+            <call method="setRequestedLocales">
                 <argument>%openclassrooms_onesky.locales%</argument>
             </call>
             <call method="setSourceLocale">

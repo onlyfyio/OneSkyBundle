@@ -31,6 +31,6 @@ class FileServiceImpl implements FileService
 
     public function setFileGateway(FileGateway $fileGateway)
     {
-         $this->fileGateway = $fileGateway;
+        $this->fileGateway = $fileGateway;
     }
 }

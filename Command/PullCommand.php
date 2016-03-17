@@ -2,8 +2,8 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -19,9 +19,14 @@ class PullCommand extends Command
     {
         $this->setName($this->getCommandName())
             ->setDescription($this->getCommandDescription())
-            ->addArgument('filePaths', InputArgument::IS_ARRAY, 'File paths', [])
-            ->addArgument('locales', InputArgument::IS_ARRAY, 'Requested locales', []);
-
+            ->addOption('filePaths', 'dir', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'File paths', [])
+            ->addOption(
+                'locales',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'Requested requestedLocales',
+                []
+            );
     }
 
     /**
@@ -39,6 +44,10 @@ class PullCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->executePull($input, $output);
+        $this->handlePullDisplay($output);
+        $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->pull(
+            $input->getOption('filePaths'),
+            $input->getOption('locales')
+        );
     }
 }

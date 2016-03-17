@@ -48,8 +48,8 @@ abstract class ExportFile extends File
     public function format()
     {
         return [
-            self::PROJECT_ID                 => $this->projectId,
-            self::REQUESTED_LOCALE           => $this->requestedLocale,
+            self::PROJECT_ID => $this->projectId,
+            self::REQUESTED_LOCALE => $this->requestedLocale,
             self::REQUESTED_SOURCE_FILE_NAME => $this->getEncodedSourceFileName(),
         ];
     }

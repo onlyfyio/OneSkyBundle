@@ -33,6 +33,8 @@ class FileServiceMock implements FileService
     public function download(array $files)
     {
         self::$downloadedFiles = $files;
+
+        return self::$downloadedFiles;
     }
 
     /**
@@ -41,5 +43,7 @@ class FileServiceMock implements FileService
     public function upload(array $files)
     {
         self::$uploadedFiles = $files;
+
+        return self::$uploadedFiles;
     }
 }

@@ -3,6 +3,7 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -13,6 +14,20 @@ class PushCommand extends Command
     const COMMAND_NAME = 'openclassrooms:one-sky:push';
 
     const COMMAND_DESCRIPTION = 'Push translations';
+
+    protected function configure()
+    {
+        $this->setName($this->getCommandName())
+            ->setDescription($this->getCommandDescription())
+            ->addOption('filePaths', 'dir', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'File paths', [])
+            ->addOption(
+                'locales',
+                null,
+                InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+                'Source locales',
+                []
+            );
+    }
 
     /**
      * @return string
@@ -29,6 +44,10 @@ class PushCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->executePush($output);
+        $this->handlePushDisplay($output);
+        $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->push(
+            $input->getOption('filePaths'),
+            $input->getOption('locales')
+        );
     }
 }

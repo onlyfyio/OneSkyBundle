@@ -39,14 +39,6 @@ abstract class File
     }
 
     /**
-     * @return int
-     */
-    public function getProjectId()
-    {
-        return $this->projectId;
-    }
-
-    /**
      * @return string
      */
     public function getSourceFilePathRelativeToProject()

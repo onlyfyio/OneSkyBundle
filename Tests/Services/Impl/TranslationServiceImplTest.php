@@ -8,6 +8,7 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\UploadFileImpl;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\TranslationServiceImpl;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\TranslationService;
 use OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Services\FileServiceMock;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -149,10 +150,11 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
         $fileFactory->setKernelRootDir(self::KERNEL_ROOT_DIR);
         $fileFactory->setProjectId(self::PROJECT_ID);
         $fileFactory->setSourceLocale(self::SOURCE_LOCALE);
+        $this->service->setEventDispatcher(new EventDispatcher());
         $this->service->setFileFactory($fileFactory);
         $this->service->setFileFormat(self::FILE_FORMAT);
         $this->service->setFileService(new FileServiceMock());
-        $this->service->setLocales(['fr', 'es']);
+        $this->service->setRequestedLocales(['fr', 'es']);
         $this->service->setSourceLocale(self::SOURCE_LOCALE);
     }
 }

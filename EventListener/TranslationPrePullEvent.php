@@ -20,7 +20,7 @@ class TranslationPrePullEvent extends Event
     /**
      * @param ExportFile[] $exportFiles
      */
-    public function __construct(array $exportFiles = [])
+    public function __construct(array $exportFiles)
     {
         $this->exportFiles = $exportFiles;
     }
@@ -34,11 +34,10 @@ class TranslationPrePullEvent extends Event
     }
 
     /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile[]
+     * @return int
      */
     public function getExportFilesCount()
     {
         return count($this->exportFiles);
     }
-
 }

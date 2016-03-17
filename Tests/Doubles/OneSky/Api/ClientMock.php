@@ -25,22 +25,16 @@ class ClientMock extends Client
     public static $downloadedCount = 0;
 
     /**
-     * @var int
-     */
-    public static $downloadedTries;
-
-    /**
      * @var array
      */
     public static $parameters = [];
 
-    public function __construct($downloadedContent = null, $downloadedTries = 0)
+    public function __construct()
     {
         parent::__construct();
         self::$action = null;
-        self::$downloadedContent = $downloadedContent;
+        self::$downloadedContent = null;
         self::$downloadedCount = 0;
-        self::$downloadedTries = $downloadedTries;
         self::$parameters = [];
     }
 

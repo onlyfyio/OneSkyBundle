@@ -22,10 +22,37 @@ class PushCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function execute()
+    public function without_locales_execute()
     {
         $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME]);
-        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pushedFilePaths);
+        $this->assertEquals([], TranslationServiceMock::$locales);
+    }
+
+    /**
+     * @test
+     */
+    public function with_locales_execute()
+    {
+        $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--locales' => ['es']]);
+        $this->assertEquals(['es'], TranslationServiceMock::$locales);
+    }
+
+    /**
+     * @test
+     */
+    public function without_filePaths_execute()
+    {
+        $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME]);
+        $this->assertEquals([], TranslationServiceMock::$pushedFilePaths);
+    }
+
+    /**
+     * @test
+     */
+    public function with_filePath_execute()
+    {
+        $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--filePaths' => [self::$filePaths]]);
+        $this->assertEquals([self::$filePaths], TranslationServiceMock::$pushedFilePaths);
     }
 
     /**

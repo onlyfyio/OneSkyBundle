@@ -7,5 +7,4 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Gateways;
  */
 class NonExistingTranslationException extends \Exception
 {
-
 }

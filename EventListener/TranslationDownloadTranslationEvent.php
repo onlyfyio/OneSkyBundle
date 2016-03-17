@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class TranslationDownloadTranslationEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.translation_download_translation';
+    const EVENT_NAME = 'openclassrooms.onesky.event.download_translation';
 
     /**
      * @var ExportFile
@@ -37,5 +37,4 @@ class TranslationDownloadTranslationEvent extends Event
     {
         return $this->exportFile;
     }
-
 }

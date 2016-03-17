@@ -42,10 +42,18 @@ abstract class UploadFile extends File
     public function format()
     {
         return [
-            self::PROJECT_ID       => $this->projectId,
+            self::PROJECT_ID => $this->projectId,
             self::SOURCE_FILE_PATH => $this->formattedSourceFilePath,
-            self::FILE_FORMAT      => $this->fileFormat,
-            self::SOURCE_LOCALE    => $this->sourceLocale,
+            self::FILE_FORMAT => $this->fileFormat,
+            self::SOURCE_LOCALE => $this->sourceLocale,
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getSourceLocale()
+    {
+        return $this->sourceLocale;
     }
 }

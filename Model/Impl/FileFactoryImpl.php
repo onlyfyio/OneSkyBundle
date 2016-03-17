@@ -49,14 +49,14 @@ class FileFactoryImpl implements FileFactory
     /**
      * {@inheritdoc}
      */
-    public function createUploadFile($filePath)
+    public function createUploadFile($filePath, $locale = null)
     {
         return new UploadFileImpl(
             $this->projectId,
             $filePath,
             $this->getProjectDirectory(),
             $this->fileFormat,
-            $this->sourceLocale
+            empty($locale) ? $this->sourceLocale : $locale
         );
     }
 

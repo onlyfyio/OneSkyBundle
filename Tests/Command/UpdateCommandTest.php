@@ -22,22 +22,12 @@ class UpdateCommandTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function without_locale_execute()
+    public function execute()
     {
         $this->commandTester->execute(['command' => UpdateCommand::COMMAND_NAME]);
-        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pulledFilePaths);
-        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pushedFilePaths);
-    }
-
-    /**
-     * @test
-     */
-    public function with_locales_execute()
-    {
-        $this->commandTester->execute(['command' => UpdateCommand::COMMAND_NAME, 'locales' => ['es']]);
-        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pulledFilePaths);
-        $this->assertEquals([[realpath(__DIR__.'/../../'.self::$filePaths)]], TranslationServiceMock::$pushedFilePaths);
-        $this->assertEquals([['es']], TranslationServiceMock::$locales);
+        $this->assertTrue(TranslationServiceMock::$updateCalled);
+        $this->assertEquals([], TranslationServiceMock::$updatedFilePaths);
+        $this->assertEquals([], TranslationServiceMock::$locales);
     }
 
     /**

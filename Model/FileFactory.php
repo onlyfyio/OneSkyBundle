@@ -15,5 +15,5 @@ interface FileFactory
     /**
      * @return UploadFile
      */
-    public function createUploadFile($filePath);
+    public function createUploadFile($filePath, $locale = null);
 }
