@@ -96,7 +96,7 @@ class FileGatewayImpl implements FileGateway
     private function uploadTranslation(UploadFile $file)
     {
         $this->eventDispatcher->dispatch(
-            TranslationDownloadTranslationEvent::getEventName(),
+            TranslationUploadTranslationEvent::getEventName(),
             new TranslationUploadTranslationEvent($file)
         );
         $this->client->files(self::UPLOAD_METHOD, $file->format());

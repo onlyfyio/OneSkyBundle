@@ -61,7 +61,7 @@ class TranslationServiceImpl implements TranslationService
     {
         $this->eventDispatcher->dispatch(TranslationUpdateEvent::getEventName(), new TranslationUpdateEvent());
 
-        return [$this->pull($filePaths, $locales), $this->push($filePaths)];
+        return [$this->pull($filePaths, $locales), $this->push($filePaths, $locales)];
     }
 
     /**
@@ -71,9 +71,9 @@ class TranslationServiceImpl implements TranslationService
     {
         $exportFiles = [];
         /** @var SplFileInfo $file */
-        foreach ($this->getFiles($filePaths) as $file) {
+        foreach ($this->getFiles($filePaths, $this->getSourceLocales($locales)) as $file) {
             foreach ($this->getRequestedLocales($locales) as $locale) {
-                $exportFiles[] = $this->fileFactory->createExportFile($file->getRealpath(), $locale);
+                $exportFiles[] = $this->fileFactory->createExportFile($file->getRealPath(), $locale);
             }
         }
 
@@ -95,12 +95,12 @@ class TranslationServiceImpl implements TranslationService
     /**
      * @return Finder
      */
-    private function getFiles(array $filePaths)
+    private function getFiles(array $filePaths, array $locales)
     {
         return Finder::create()
             ->files()
             ->in($this->getFilePaths($filePaths))
-            ->name('*.'.$this->sourceLocale.'.'.$this->fileFormat);
+            ->name('*.{'.implode(",", $locales).'}.'.$this->fileFormat);
     }
 
     /**
@@ -109,6 +109,14 @@ class TranslationServiceImpl implements TranslationService
     private function getFilePaths(array $filePaths)
     {
         return empty($filePaths) ? $this->filePaths : $filePaths;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getSourceLocales(array $locales)
+    {
+        return empty($locales) ? [$this->sourceLocale] : $locales;
     }
 
     /**
@@ -126,9 +134,9 @@ class TranslationServiceImpl implements TranslationService
     {
         $uploadFiles = [];
         /** @var SplFileInfo $file */
-        foreach ($this->getFiles($filePaths) as $file) {
-            foreach ($this->getSourceLocales($locales) as $locale) {
-                $uploadFiles[] = $this->fileFactory->createUploadFile($file->getRealpath(), $locale);
+        foreach ($this->getSourceLocales($locales) as $locale) {
+            foreach ($this->getFiles($filePaths, [$locale]) as $file) {
+                $uploadFiles[] = $this->fileFactory->createUploadFile($file->getRealPath(), $locale);
             }
         }
 
@@ -147,14 +155,6 @@ class TranslationServiceImpl implements TranslationService
         return $uploadedFiles;
     }
 
-    /**
-     * @return string[]
-     */
-    private function getSourceLocales(array $locales)
-    {
-        return empty($locales) ? [$this->sourceLocale] : $locales;
-    }
-
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
@@ -168,6 +168,11 @@ class TranslationServiceImpl implements TranslationService
     public function setFileFormat($fileFormat)
     {
         $this->fileFormat = $fileFormat;
+    }
+
+    public function setFilePaths(array $filePaths)
+    {
+        $this->filePaths = $filePaths;
     }
 
     public function setFileService(FileService $fileService)

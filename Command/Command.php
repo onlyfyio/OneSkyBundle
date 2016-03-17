@@ -16,6 +16,8 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
+const PROGRESS_BAR_FORMAT = "<comment>%message%</comment>\n %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%";
+
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
@@ -47,8 +49,9 @@ abstract class Command extends ContainerAwareCommand
         $dispatcher->addListener(
             TranslationPrePullEvent::getEventName(),
             function (TranslationPrePullEvent $event) use ($output) {
-                $output->writeln('<info>Pulling for project id '.$this->getProjectId().'</info>');
+                $output->writeln("<info>Pulling for project id ".$this->getProjectId()."</info>\n");
                 $this->progressBar = new ProgressBar($output, $event->getExportFilesCount());
+                $this->progressBar->setFormat(PROGRESS_BAR_FORMAT);
                 $this->getProgressBar()->start();
             }
         );
@@ -56,10 +59,10 @@ abstract class Command extends ContainerAwareCommand
         $dispatcher->addListener(
             TranslationDownloadTranslationEvent::getEventName(),
             function (TranslationDownloadTranslationEvent $event) use ($output) {
-                $this->getProgressBar()->advance();
                 $this->getProgressBar()->setMessage(
-                    '<comment>'.$event->getExportFile()->getSourceFilePathRelativeToProject()
+                    "<comment>".$event->getExportFile()->getSourceFilePathRelativeToProject()."</comment>"
                 );
+                $this->getProgressBar()->advance();
             }
         );
 
@@ -106,8 +109,9 @@ abstract class Command extends ContainerAwareCommand
         $dispatcher->addListener(
             TranslationPrePushEvent::getEventName(),
             function (TranslationPrePushEvent $event) use ($output) {
-                $output->writeln('<info>Pushing for project id '.$this->getProjectId().'</info>');
+                $output->writeln("<info>Pushing for project id ".$this->getProjectId()."</info>\n");
                 $this->progressBar = new ProgressBar($output, $event->getUploadFilesCount());
+                $this->progressBar->setFormat(PROGRESS_BAR_FORMAT);
                 $this->getProgressBar()->start();
             }
         );
@@ -115,10 +119,8 @@ abstract class Command extends ContainerAwareCommand
         $dispatcher->addListener(
             TranslationUploadTranslationEvent::getEventName(),
             function (TranslationUploadTranslationEvent $event) use ($output) {
+                $this->getProgressBar()->setMessage($event->getUploadFile()->getSourceFilePathRelativeToProject());
                 $this->getProgressBar()->advance();
-                $this->getProgressBar()->setMessage(
-                    '<comment>'.$event->getUploadFile()->getSourceFilePathRelativeToProject()
-                );
             }
         );
 
@@ -126,6 +128,7 @@ abstract class Command extends ContainerAwareCommand
             TranslationPostPushEvent::getEventName(),
             function (TranslationPostPushEvent $event) use ($output) {
                 $this->progressBar->finish();
+                $output->writeln('');
                 $output->writeln('<info>'.count($event->getUploadedFiles()).' files downloaded. </info>');
                 $table = new Table($output);
                 $table

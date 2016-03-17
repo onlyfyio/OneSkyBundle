@@ -46,6 +46,9 @@
             <call method="setFileFormat">
                 <argument type="string">%openclassrooms_onesky.file_format%</argument>
             </call>
+            <call method="setFilePaths">
+                <argument type="string">%openclassrooms_onesky.file_paths%</argument>
+            </call>
             <call method="setFileService">
                 <argument type="service" id="openclassrooms.onesky.services.file_service"/>
             </call>
