@@ -19,7 +19,9 @@ class PullCommand extends Command
     {
         $this->setName($this->getCommandName())
             ->setDescription($this->getCommandDescription())
+            ->addArgument('filePaths', InputArgument::IS_ARRAY, 'File paths', [])
             ->addArgument('locales', InputArgument::IS_ARRAY, 'Requested locales', []);
+
     }
 
     /**

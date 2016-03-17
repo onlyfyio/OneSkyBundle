@@ -12,9 +12,15 @@ interface FileGateway
 {
     const UPLOAD_METHOD = 'upload';
 
-    const DOWNLOAD_METHOD = 'translations';
+    const DOWNLOAD_METHOD = 'export';
 
-    public function download(ExportFile $file);
+    /**
+     * @param ExportFile[] $files
+     */
+    public function downloadTranslations(array $files);
 
-    public function upload(UploadFile $file);
+    /**
+     * @param UploadFile[] $files
+     */
+    public function uploadTranslations(array $files);
 }

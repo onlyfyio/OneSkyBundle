@@ -26,6 +26,14 @@ abstract class ExportFile extends File
     /**
      * @return string
      */
+    public function getRequestedLocale()
+    {
+        return $this->requestedLocale;
+    }
+
+    /**
+     * @return string
+     */
     public function getTargetFilePath()
     {
         $explodedFilePath = explode('.', $this->sourceFilePath);

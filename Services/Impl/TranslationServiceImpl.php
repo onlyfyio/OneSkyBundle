@@ -2,9 +2,13 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Services\Impl;
 
+use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationPostPullEvent;
+use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationPrePullEvent;
+use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationUpdateEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\FileFactory;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\FileService;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\TranslationService;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -13,6 +17,11 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class TranslationServiceImpl implements TranslationService
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
     /**
      * @var FileFactory
      */
@@ -43,8 +52,12 @@ class TranslationServiceImpl implements TranslationService
      */
     public function update(array $filePaths, array $locales = [])
     {
-        $this->pull($filePaths, $locales);
-        $this->push($filePaths);
+        $this->eventDispatcher->dispatch(TranslationUpdateEvent::getEventName(), new TranslationUpdateEvent());
+
+        $pulledFiles = $this->pull($filePaths, $locales);
+        $pushedFiles = $this->push($filePaths);
+
+        return [$pulledFiles, $pushedFiles];
     }
 
     /**
@@ -62,7 +75,19 @@ class TranslationServiceImpl implements TranslationService
             }
         }
 
-        $this->fileService->download($exportFiles);
+        $this->eventDispatcher->dispatch(
+            TranslationPrePullEvent::getEventName(),
+            new TranslationPrePullEvent($exportFiles)
+        );
+
+        $downloadedFiles = $this->fileService->download($exportFiles);
+        $this->eventDispatcher->dispatch(
+            TranslationPostPullEvent::getEventName(),
+            new TranslationPostPullEvent($downloadedFiles)
+        );
+
+        return $downloadedFiles;
+
     }
 
     /**
@@ -77,7 +102,7 @@ class TranslationServiceImpl implements TranslationService
             $uploadFiles[] = $this->fileFactory->createUploadFile($file->getRealpath());
         }
 
-        $this->fileService->upload($uploadFiles);
+        return $this->fileService->upload($uploadFiles);
     }
 
     public function setFileFactory(FileFactory $fileFactory)

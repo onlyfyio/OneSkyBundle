@@ -16,25 +16,21 @@ class FileServiceImpl implements FileService
      */
     private $fileGateway;
 
+    public function download(array $files)
+    {
+        return $this->fileGateway->downloadTranslations($files);
+    }
+
     /**
      * @param UploadFile[] $files
      */
     public function upload(array $files)
     {
-        foreach ($files as $file) {
-            $this->fileGateway->upload($file);
-        }
-    }
-
-    public function download(array $files)
-    {
-        foreach ($files as $file) {
-            $this->fileGateway->download($file);
-        }
+        return $this->fileGateway->uploadTranslations($files);
     }
 
     public function setFileGateway(FileGateway $fileGateway)
     {
-        $this->fileGateway = $fileGateway;
+         $this->fileGateway = $fileGateway;
     }
 }

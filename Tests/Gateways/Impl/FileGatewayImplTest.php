@@ -48,10 +48,10 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function Client202_downloadWait()
+    public function Client400_download_Continur()
     {
-        $this->gateway->setClient(new ClientMock());
-        $this->gateway->download(new ExportFileStub1());
+        $this->gateway->setClient(new ClientMock('{"meta":{"status":400,"message":"Invalid source file"},"data":{}}'));
+        $this->gateway->downloadFile(new ExportFileStub1());
     }
     /**
      * @test
@@ -59,7 +59,7 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
     public function download()
     {
         $exportFileStub1 = new ExportFileStub1();
-        $this->gateway->download($exportFileStub1);
+        $this->gateway->downloadFile($exportFileStub1);
         $this->assertEquals(ClientMock::$action, FileGateway::DOWNLOAD_METHOD);
         $this->assertEquals(
             ClientMock::$parameters,
