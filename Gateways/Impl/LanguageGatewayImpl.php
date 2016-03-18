@@ -42,11 +42,17 @@ class LanguageGatewayImpl implements LanguageGateway
 
         $this->checkResponse($response, $jsonResponse);
 
-        $languages = $this->languageFactory->createFromCollection($response['data']);
-        $languageLocales = $this->getLanguagesLocales($languages);
-        $this->checkExistingLocale($locales, $languageLocales);
+        $languages = $this->createLanguages($response);
+        $requestedLanguages = [];
+        foreach ($locales as $locale) {
+            if (isset($languages[$locale])) {
+                $requestedLanguages[] = $languages[$locale];
+            } else {
+                throw new LanguageNotFoundException($locale);
+            }
+        }
 
-        return $languages;
+        return $requestedLanguages;
     }
 
     /**
@@ -60,30 +66,28 @@ class LanguageGatewayImpl implements LanguageGateway
     }
 
     /**
-     * @param Language[] $languages
-     *
-     * @return string[]
+     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
      */
-    private function getLanguagesLocales(array $languages)
+    private function createLanguages($response)
     {
-        $languageLocales = [];
-        foreach ($languages as $language) {
-            $languageLocales[] = $language->getLocale();
-        }
+        $languages = $this->languageFactory->createFromCollection($response['data']);
 
-        return $languageLocales;
+        return $this->formatLanguages($languages);
     }
 
     /**
-     * @throws LanguageNotFoundException
+     * @param Language[] $languages
+     *
+     * @return Language[]
      */
-    private function checkExistingLocale(array $locales, $languageLocales)
+    private function formatLanguages(array $languages)
     {
-        foreach ($locales as $locale) {
-            if (!in_array($locale, $languageLocales)) {
-                throw new LanguageNotFoundException($locale);
-            }
+        $languageLocales = [];
+        foreach ($languages as $language) {
+            $languageLocales[$language->getLocale()] = $language;
         }
+
+        return $languageLocales;
     }
 
     public function setClient(Client $client)
@@ -99,5 +103,18 @@ class LanguageGatewayImpl implements LanguageGateway
     public function setProjectId($projectId)
     {
         $this->projectId = $projectId;
+    }
+
+    /**
+     * @throws LanguageNotFoundException
+     */
+    private function checkExistingLocale(array $locales, array $languages)
+    {
+        $languageLocales = $this->getLanguagesLocales($languages);
+        foreach ($locales as $locale) {
+            if (!in_array($locale, $languageLocales)) {
+                throw new LanguageNotFoundException($locale);
+            }
+        }
     }
 }
