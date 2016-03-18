@@ -25,6 +25,11 @@ class ClientMock extends Client
     public static $downloadedCount = 0;
 
     /**
+     * @var string
+     */
+    public static $languagesContent;
+
+    /**
      * @var array
      */
     public static $parameters = [];
@@ -62,5 +67,15 @@ class ClientMock extends Client
         }
 
         return 'Download : '.++self::$downloadedCount;
+    }
+
+    public function projects($action, $parameters)
+    {
+        self::$action = $action;
+        self::$parameters = $parameters;
+
+        if ($action === 'languages') {
+            return self::$languagesContent;
+        }
     }
 }

@@ -17,6 +17,17 @@
                 <argument type="service" id="openclassrooms.onesky.event_dispatcher"/>
             </call>
         </service>
+        <service id="openclassrooms.onesky.gateways.language" class="OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl\LanguageGatewayImpl">
+            <call method="setClient">
+                <argument type="service" id="openclassrooms.onesky.client"/>
+            </call>
+            <call method="setLanguageFactory">
+                <argument type="service" id="openclassrooms.onesky.model.language_factory"/>
+            </call>
+            <call method="setProjectId">
+                <argument type="string">%openclassrooms_onesky.project_id%</argument>
+            </call>
+        </service>
         <service id="openclassrooms.onesky.model.file_factory" class="OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\FileFactoryImpl">
             <call method="setFileFormat">
                 <argument type="string">%openclassrooms_onesky.file_format%</argument>
@@ -31,9 +42,18 @@
                 <argument type="string">%openclassrooms_onesky.source_locale%</argument>
             </call>
         </service>
+        <service id="openclassrooms.onesky.model.language_factory" class="OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\LanguageFactoryImpl"/>
         <service id="openclassrooms.onesky.services.file_service" class="OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\FileServiceImpl">
             <call method="setFileGateway">
                 <argument type="service" id="openclassrooms.onesky.gateways.file"/>
+            </call>
+        </service>
+        <service id="openclassrooms.onesky.services.language_service" class="OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\LanguageServiceImpl">
+            <call method="setLanguageGateway">
+                <argument type="service" id="openclassrooms.onesky.gateways.language"/>
+            </call>
+            <call method="setRequestedLocales">
+                <argument>%openclassrooms_onesky.locales%</argument>
             </call>
         </service>
         <service id="openclassrooms.onesky.services.translation_service" class="OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\TranslationServiceImpl">

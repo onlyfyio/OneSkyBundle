@@ -33,7 +33,7 @@ class PushCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function with_locales_execute()
     {
-        $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--locales' => ['es']]);
+        $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--locale' => ['es']]);
         $this->assertEquals(['es'], TranslationServiceMock::$locales);
     }
 
@@ -51,7 +51,7 @@ class PushCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function with_filePath_execute()
     {
-        $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--filePaths' => [self::$filePaths]]);
+        $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--filePath' => [self::$filePaths]]);
         $this->assertEquals([self::$filePaths], TranslationServiceMock::$pushedFilePaths);
     }
 

@@ -61,7 +61,7 @@ class TranslationServiceImpl implements TranslationService
     {
         $this->eventDispatcher->dispatch(TranslationUpdateEvent::getEventName(), new TranslationUpdateEvent());
 
-        return [$this->pull($filePaths, $locales), $this->push($filePaths, $locales)];
+        return [$this->pull($filePaths, $locales), $this->push($filePaths)];
     }
 
     /**
@@ -71,7 +71,7 @@ class TranslationServiceImpl implements TranslationService
     {
         $exportFiles = [];
         /** @var SplFileInfo $file */
-        foreach ($this->getFiles($filePaths, $this->getSourceLocales($locales)) as $file) {
+        foreach ($this->getFiles($filePaths, $this->getSourceLocales()) as $file) {
             foreach ($this->getRequestedLocales($locales) as $locale) {
                 $exportFiles[] = $this->fileFactory->createExportFile($file->getRealPath(), $locale);
             }
@@ -114,7 +114,7 @@ class TranslationServiceImpl implements TranslationService
     /**
      * @return string[]
      */
-    private function getSourceLocales(array $locales)
+    private function getSourceLocales(array $locales = [])
     {
         return empty($locales) ? [$this->sourceLocale] : $locales;
     }

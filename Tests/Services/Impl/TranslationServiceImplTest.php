@@ -65,15 +65,29 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function pull()
+    public function WithoutFilePaths_pull()
     {
-        $this->service->pull([__DIR__.'/../../Fixtures/Resources/translations/subDirectory']);
+        $this->service->pull([]);
         $this->assertEquals(
             [
+                $this->buildExportFile1fr(),
+                $this->buildExportFile1es(),
                 $this->buildExportFile2fr(),
                 $this->buildExportFile2es(),
             ],
             FileServiceMock::$downloadedFiles
+        );
+    }
+
+    /**
+     * @return ExportFileImpl
+     */
+    private function buildExportFile1fr()
+    {
+        return new ExportFileImpl(
+            self::PROJECT_ID, __DIR__.'/../../Fixtures/Resources/translations/messages.en.yml',
+            self::PROJECT_DIRECTORY,
+            'fr'
         );
     }
 
@@ -92,9 +106,24 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function push()
+    public function pull()
     {
-        $this->service->push([__DIR__.'/../../Fixtures/Resources/*']);
+        $this->service->pull([__DIR__.'/../../Fixtures/Resources/translations/subDirectory']);
+        $this->assertEquals(
+            [
+                $this->buildExportFile2fr(),
+                $this->buildExportFile2es(),
+            ],
+            FileServiceMock::$downloadedFiles
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function WithoutFilePath_push()
+    {
+        $this->service->push([]);
         $this->assertEquals([$this->buildUploadFile1(), $this->buildUploadFile2()], FileServiceMock::$uploadedFiles);
     }
 
@@ -129,6 +158,15 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function push()
+    {
+        $this->service->push([__DIR__.'/../../Fixtures/Resources/*']);
+        $this->assertEquals([$this->buildUploadFile1(), $this->buildUploadFile2()], FileServiceMock::$uploadedFiles);
+    }
+
+    /**
+     * @test
+     */
     public function WithLocales_update_Update()
     {
         $this->service->update([__DIR__.'/../../Fixtures/Resources/'], ['es']);
@@ -153,6 +191,7 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
         $this->service->setEventDispatcher(new EventDispatcher());
         $this->service->setFileFactory($fileFactory);
         $this->service->setFileFormat(self::FILE_FORMAT);
+        $this->service->setFilePaths([__DIR__.'/../../Fixtures/Resources/*']);
         $this->service->setFileService(new FileServiceMock());
         $this->service->setRequestedLocales(['fr', 'es']);
         $this->service->setSourceLocale(self::SOURCE_LOCALE);
