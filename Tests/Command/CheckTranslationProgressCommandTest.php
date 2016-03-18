@@ -37,7 +37,9 @@ class CheckTranslationProgressCommandTest extends \PHPUnit_Framework_TestCase
     public function with_locales_execute()
     {
         LanguageServiceMock::$languages = [new LanguageStub1(), new LanguageStub2()];
-        $exitCode = $this->commandTester->execute(['command' => CheckTranslationProgressCommand::COMMAND_NAME, '--locale' => [LanguageStub2::LOCALE]]);
+        $exitCode = $this->commandTester->execute(
+            ['command' => CheckTranslationProgressCommand::COMMAND_NAME, '--locale' => [LanguageStub2::LOCALE]]
+        );
         $this->assertEquals([LanguageStub2::LOCALE], LanguageServiceMock::$locales);
         $this->assertTrue(LanguageServiceMock::$calledGetLanguages);
         $this->assertEquals(1, $exitCode);
@@ -49,7 +51,9 @@ class CheckTranslationProgressCommandTest extends \PHPUnit_Framework_TestCase
     public function WithFullProgression()
     {
         LanguageServiceMock::$languages = [new LanguageStub1()];
-        $exitCode = $this->commandTester->execute(['command' => CheckTranslationProgressCommand::COMMAND_NAME, '--locale' => [LanguageStub1::LOCALE]]);
+        $exitCode = $this->commandTester->execute(
+            ['command' => CheckTranslationProgressCommand::COMMAND_NAME, '--locale' => [LanguageStub1::LOCALE]]
+        );
         $this->assertEquals([LanguageStub1::LOCALE], LanguageServiceMock::$locales);
         $this->assertTrue(LanguageServiceMock::$calledGetLanguages);
         $this->assertEquals(0, $exitCode);

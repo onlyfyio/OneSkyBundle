@@ -22,7 +22,7 @@ class InMemoryLanguageGateway implements LanguageGateway
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function findLanguages(array $locales = [])
     {

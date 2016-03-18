@@ -49,7 +49,7 @@ abstract class Command extends ContainerAwareCommand
         $dispatcher->addListener(
             TranslationPrePullEvent::getEventName(),
             function (TranslationPrePullEvent $event) use ($output) {
-                $output->writeln("<info>Pulling for project id ".$this->getProjectId()."</info>\n");
+                $output->writeln('<info>Pulling for project id '.$this->getProjectId()."</info>\n");
                 $this->progressBar = new ProgressBar($output, $event->getExportFilesCount());
                 $this->progressBar->setFormat(PROGRESS_BAR_FORMAT);
                 $this->getProgressBar()->start();
@@ -60,7 +60,7 @@ abstract class Command extends ContainerAwareCommand
             TranslationDownloadTranslationEvent::getEventName(),
             function (TranslationDownloadTranslationEvent $event) use ($output) {
                 $this->getProgressBar()->setMessage(
-                    "<comment>".$event->getExportFile()->getTargetFilePathRelativeToProject()."</comment>"
+                    '<comment>'.$event->getExportFile()->getTargetFilePathRelativeToProject().'</comment>'
                 );
                 $this->getProgressBar()->advance();
             }
@@ -109,7 +109,7 @@ abstract class Command extends ContainerAwareCommand
         $dispatcher->addListener(
             TranslationPrePushEvent::getEventName(),
             function (TranslationPrePushEvent $event) use ($output) {
-                $output->writeln("<info>Pushing for project id ".$this->getProjectId()."</info>\n");
+                $output->writeln('<info>Pushing for project id '.$this->getProjectId()."</info>\n");
                 $this->progressBar = new ProgressBar($output, $event->getUploadFilesCount());
                 $this->progressBar->setFormat(PROGRESS_BAR_FORMAT);
                 $this->getProgressBar()->start();

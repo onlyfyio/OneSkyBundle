@@ -11,6 +11,7 @@ interface LanguageGateway
 
     /**
      * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
+     *
      * @throws LanguageException
      */
     public function findLanguages(array $locales);

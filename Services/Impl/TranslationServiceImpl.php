@@ -100,7 +100,7 @@ class TranslationServiceImpl implements TranslationService
         return Finder::create()
             ->files()
             ->in($this->getFilePaths($filePaths))
-            ->name('*.{'.implode(",", $locales).'}.'.$this->fileFormat);
+            ->name('*.{'.implode(',', $locales).'}.'.$this->fileFormat);
     }
 
     /**
@@ -133,7 +133,7 @@ class TranslationServiceImpl implements TranslationService
     public function push(array $filePaths, array $locales = [])
     {
         $uploadFiles = [];
-        /** @var SplFileInfo $file */
+        /* @var SplFileInfo $file */
         foreach ($this->getSourceLocales($locales) as $locale) {
             foreach ($this->getFiles($filePaths, [$locale]) as $file) {
                 $uploadFiles[] = $this->fileFactory->createUploadFile($file->getRealPath(), $locale);

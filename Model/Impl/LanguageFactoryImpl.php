@@ -10,7 +10,7 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\LanguageFactory;
 class LanguageFactoryImpl implements LanguageFactory
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createFromCollection(array $data)
     {

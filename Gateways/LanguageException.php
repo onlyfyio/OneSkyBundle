@@ -7,5 +7,4 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Gateways;
  */
 class LanguageException extends \Exception
 {
-
 }

@@ -31,6 +31,7 @@ class LanguageGatewayImpl implements LanguageGateway
 
     /**
      * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
+     *
      * @throws LanguageException
      * @throws LanguageNotFoundException
      */

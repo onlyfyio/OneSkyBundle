@@ -33,7 +33,7 @@ class LanguageServiceMock implements LanguageService
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getLanguages(array $locales = [])
     {
@@ -42,5 +42,4 @@ class LanguageServiceMock implements LanguageService
 
         return self::$languages;
     }
-
 }
