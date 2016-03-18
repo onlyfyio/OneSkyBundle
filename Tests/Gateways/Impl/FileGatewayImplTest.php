@@ -103,7 +103,7 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
      */
     public function WithFileNotOnApiException_download_DoNothing()
     {
-        ClientMock::$downloadedContent = '{TODO';
+        ClientMock::$downloadedContent = '{"meta":{"status":400,"message":"Invalid source file"},"data":{}}';
         $this->gateway->downloadTranslations([new ExportFileStub1()]);
     }
 

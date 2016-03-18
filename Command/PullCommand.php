@@ -19,12 +19,12 @@ class PullCommand extends Command
     {
         $this->setName($this->getCommandName())
             ->setDescription($this->getCommandDescription())
-            ->addOption('filePaths', 'dir', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'File paths', [])
+            ->addOption('filePath', 'dir', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'File paths', [])
             ->addOption(
-                'locales',
+                'locale',
                 null,
                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
-                'Requested requestedLocales',
+                'Requested requestedLocale',
                 []
             );
     }
@@ -46,8 +46,8 @@ class PullCommand extends Command
     {
         $this->handlePullDisplay($output);
         $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->pull(
-            $input->getOption('filePaths'),
-            $input->getOption('locales')
+            $input->getOption('filePath'),
+            $input->getOption('locale')
         );
     }
 }

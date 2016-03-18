@@ -43,6 +43,17 @@ abstract class ExportFile extends File
     }
 
     /**
+     * @return string
+     */
+    public function getTargetFilePathRelativeToProject()
+    {
+        $explodedFilePath = explode('.', $this->sourceFilePathRelativeToProject);
+        $explodedFilePath[count($explodedFilePath) - 2] = $this->requestedLocale;
+
+        return implode('.', $explodedFilePath);
+    }
+
+    /**
      * @return string[]
      */
     public function format()
