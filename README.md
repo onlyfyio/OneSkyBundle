@@ -72,7 +72,7 @@ php app/console openclassrooms:one-sky:pull --locale=fr
 php app/console openclassrooms:one-sky:pull --locale=fr --locale=es
 ```
 
-### Pusg
+### Push
 Push the translations from the OneSky api using the default configuration.
 
 
@@ -100,4 +100,20 @@ Pull then push translations from the OneSky api using the default configuration.
 
 ```bash
 php app/console openclassrooms:one-sky:update
+```
+
+### Check translation progress
+Check the translation progress from the OneSky api using the default configuration.
+
+
+```bash
+php app/console openclassrooms:one-sky:check-translation-progress
+```
+
+#### Options
+##### locale
+Locale can be set in option
+```bash
+php app/console openclassrooms:one-sky:check-translation-progress --locale=en
+php app/console openclassrooms:one-sky:check-translation-progress --locale=en --locale=fr
 ```
