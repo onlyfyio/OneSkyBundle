@@ -3,7 +3,7 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/87d6eebd-6344-4e30-86a6-71e501a2aa8b/mini.png)](https://insight.sensiolabs.com/projects/87d6eebd-6344-4e30-86a6-71e501a2aa8b)
 [![Coverage Status](https://coveralls.io/repos/github/OpenClassrooms/OneSkyBundle/badge.svg?branch=master)](https://coveralls.io/github/OpenClassrooms/OneSkyBundle?branch=master)
 
-The OneSkyBundle offers integration of the [OneSky Client](https://github.com/onesky/api-library-php5) for common tasks like pulling and pushing translations.
+The OneSkyBundle offers integration of the [OneSky Client](https://github.com/onesky/api-library-php5) for common tasks like pulling and pushing translations.  
 [OneSky](https://www.oneskyapp.com/) is a plateform that provides translations management.
 
 ## Installation
@@ -51,49 +51,53 @@ openclassrooms_onesky:
 
 ## Usage
 ### Pull
-```php
-$commentBuilder = $container->get('openclassrooms.akismet.models.comment_builder');
-$akismet = $container->get('openclassrooms.akismet.services.default_akismet_service');
+Pull the translations from the OneSky api using the default configuration.
 
-$comment = $commentBuilder->create()
-                          ...
-                          ->build();
-               
-if ($akismet->commentCheck($comment)) {
- // store the comment and mark it as spam (in case of a mis-diagnosis).
-} else {
- // store the comment normally
-}
 
-// and
-
-$akismet->submitSpam($comment);
-
-// and
-
-$akismet->submitHam($comment);
+```bash
+php app/console openclassrooms:one-sky:pull
 ```
 
-### Bridge Service
-The Bundle integrates a bridge service which gets the Symfony2 requestStack to automatically set the UserIP, UserAgent and Referrer.
-```xml
-<service id="openclassrooms.akismet.services.akismet_service" class="OpenClassrooms\Bundle\AkismetBundle\Services\Impl\AkismetServiceImpl">
-    <call method="setAkismet">
-        <argument type="service" id="openclassrooms.akismet.services.default_akismet_service"/>
-    </call>
-    <call method="setRequestStack">
-        <argument type="service" id="request_stack"/>
-    </call>
-</service>
+#### Options
+##### filePaths
+Source filepath can be set in option.
+```bash
+php app/console openclassrooms:one-sky:pull --filePaths=/path/to/source/files
+php app/console openclassrooms:one-sky:pull --filePaths=/path/to/source/files --filePaths=/path/to/another/source/file
+```
+##### locale
+Locale can be set in option
+```bash
+php app/console openclassrooms:one-sky:pull --locale=fr
+php app/console openclassrooms:one-sky:pull --locale=fr --locale=es
 ```
 
-You can use it by getting this service id:
-```php
-$akismet = $container->get('openclassrooms.akismet.services.akismet_service');
+### Pusg
+Push the translations from the OneSky api using the default configuration.
 
+
+```bash
+php app/console openclassrooms:one-sky:push
 ```
-instead of:
-```php
-$akismet = $container->get('openclassrooms.akismet.services.default_akismet_service');
 
+#### Options
+##### filePaths
+Source filepath can be set in option.
+```bash
+php app/console openclassrooms:one-sky:push --filePaths=/path/to/source/files
+php app/console openclassrooms:one-sky:push --filePaths=/path/to/source/files --filePaths=/path/to/another/source/file
+```
+##### locale
+Locale can be set in option
+```bash
+php app/console openclassrooms:one-sky:push --locale=en
+php app/console openclassrooms:one-sky:push --locale=en --locale=fr
+```
+
+### Update
+Pull then push translations from the OneSky api using the default configuration.
+
+
+```bash
+php app/console openclassrooms:one-sky:update
 ```
