@@ -104,17 +104,4 @@ class LanguageGatewayImpl implements LanguageGateway
     {
         $this->projectId = $projectId;
     }
-
-    /**
-     * @throws LanguageNotFoundException
-     */
-    private function checkExistingLocale(array $locales, array $languages)
-    {
-        $languageLocales = $this->getLanguagesLocales($languages);
-        foreach ($locales as $locale) {
-            if (!in_array($locale, $languageLocales)) {
-                throw new LanguageNotFoundException($locale);
-            }
-        }
-    }
 }
