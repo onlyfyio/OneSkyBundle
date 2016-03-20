@@ -58,7 +58,7 @@ abstract class Command extends ContainerAwareCommand
 
         $dispatcher->addListener(
             TranslationDownloadTranslationEvent::getEventName(),
-            function (TranslationDownloadTranslationEvent $event) use ($output) {
+            function (TranslationDownloadTranslationEvent $event) {
                 $this->getProgressBar()->setMessage(
                     '<comment>'.$event->getExportFile()->getTargetFilePathRelativeToProject().'</comment>'
                 );
@@ -118,7 +118,7 @@ abstract class Command extends ContainerAwareCommand
 
         $dispatcher->addListener(
             TranslationUploadTranslationEvent::getEventName(),
-            function (TranslationUploadTranslationEvent $event) use ($output) {
+            function (TranslationUploadTranslationEvent $event) {
                 $this->getProgressBar()->setMessage($event->getUploadFile()->getSourceFilePathRelativeToProject());
                 $this->getProgressBar()->advance();
             }
