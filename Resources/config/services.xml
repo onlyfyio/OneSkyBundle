@@ -29,6 +29,9 @@
             </call>
         </service>
         <service id="openclassrooms.onesky.model.file_factory" class="OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\FileFactoryImpl">
+            <call method="setIsKeepingAllStrings">
+                <argument type="string">%openclassrooms_onesky.keep_all_strings%</argument>
+            </call>
             <call method="setFileFormat">
                 <argument type="string">%openclassrooms_onesky.file_format%</argument>
             </call>

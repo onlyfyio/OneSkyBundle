@@ -32,6 +32,7 @@ class OpenClassroomsOneSkyExtension extends Extension
         $container->setParameter('openclassrooms_onesky.locales', $config['locales']);
         $container->setParameter('openclassrooms_onesky.file_format', $config['file_format']);
         $container->setParameter('openclassrooms_onesky.file_paths', $config['file_paths']);
+        $container->setParameter('openclassrooms_onesky.keep_all_strings', $config['keep_all_strings']);
     }
 
     /**

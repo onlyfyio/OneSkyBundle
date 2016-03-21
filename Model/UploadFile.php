@@ -7,6 +7,8 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Model;
  */
 abstract class UploadFile extends File
 {
+    const IS_KEEPING_ALL_STRINGS = 'is_keeping_all_strings';
+
     const FILE_FORMAT = 'file_format';
 
     const SOURCE_LOCALE = 'locale';
@@ -26,6 +28,11 @@ abstract class UploadFile extends File
      */
     protected $sourceLocale;
 
+    /**
+     * @var bool
+     */
+    protected $isKeepingAllStrings = false;
+
     public function __construct($projectId, $sourceFilePath, $projectDirectory, $fileFormat, $sourceLocale)
     {
         parent::__construct($projectId, $sourceFilePath, $projectDirectory);
@@ -42,10 +49,11 @@ abstract class UploadFile extends File
     public function format()
     {
         return [
-            self::PROJECT_ID => $this->projectId,
-            self::SOURCE_FILE_PATH => $this->formattedSourceFilePath,
-            self::FILE_FORMAT => $this->fileFormat,
-            self::SOURCE_LOCALE => $this->sourceLocale,
+            self::PROJECT_ID             => $this->projectId,
+            self::SOURCE_FILE_PATH       => $this->formattedSourceFilePath,
+            self::FILE_FORMAT            => $this->fileFormat,
+            self::SOURCE_LOCALE          => $this->sourceLocale,
+            self::IS_KEEPING_ALL_STRINGS => $this->isKeepingAllStrings
         ];
     }
 
@@ -55,5 +63,10 @@ abstract class UploadFile extends File
     public function getSourceLocale()
     {
         return $this->sourceLocale;
+    }
+
+    public function setIsKeepingAllStrings($isKeepingAllStrings)
+    {
+        $this->isKeepingAllStrings = $isKeepingAllStrings;
     }
 }

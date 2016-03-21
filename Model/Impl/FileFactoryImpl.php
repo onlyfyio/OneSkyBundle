@@ -31,6 +31,11 @@ class FileFactoryImpl implements FileFactory
     private $sourceLocale;
 
     /**
+     * @var bool
+     */
+    private $isKeepingAllStrings;
+
+    /**
      * @return ExportFile
      */
     public function createExportFile($sourceFilePath, $requestedLocale)
@@ -51,13 +56,22 @@ class FileFactoryImpl implements FileFactory
      */
     public function createUploadFile($filePath, $locale = null)
     {
-        return new UploadFileImpl(
+        $file =  new UploadFileImpl(
             $this->projectId,
             $filePath,
             $this->getProjectDirectory(),
             $this->fileFormat,
             empty($locale) ? $this->sourceLocale : $locale
         );
+
+        $file->setIsKeepingAllStrings($this->isKeepingAllStrings);
+
+        return $file;
+    }
+
+    public function setIsKeepingAllStrings($isKeepingAllStrings)
+    {
+        $this->isKeepingAllStrings = $isKeepingAllStrings;
     }
 
     public function setFileFormat($fileFormat)
