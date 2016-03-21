@@ -31,7 +31,7 @@ abstract class UploadFile extends File
     /**
      * @var bool
      */
-    protected $isKeepingAllStrings = false;
+    protected $isKeepingAllStrings = true;
 
     public function __construct($projectId, $sourceFilePath, $projectDirectory, $fileFormat, $sourceLocale)
     {

@@ -11,11 +11,11 @@ abstract class UploadFileStub extends UploadFileImpl
 {
     const FILE_FORMAT = 'yaml';
 
+    const PROJECT_DIRECTORY = __DIR__.'/../../../';
+
     const PROJECT_ID = 1;
 
     const SOURCE_LOCALE = 'en';
-
-    const PROJECT_DIRECTORY = __DIR__.'/../../../';
 
     /**
      * @return string

@@ -48,10 +48,11 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 [
-                    UploadFile::PROJECT_ID => UploadFileStub1::PROJECT_ID,
-                    UploadFile::SOURCE_FILE_PATH => $uploadFileStub1->getFormattedFilePath(),
-                    UploadFile::FILE_FORMAT => UploadFileStub1::FILE_FORMAT,
-                    UploadFile::SOURCE_LOCALE => UploadFileStub1::SOURCE_LOCALE,
+                    UploadFile::PROJECT_ID             => UploadFileStub1::PROJECT_ID,
+                    UploadFile::SOURCE_FILE_PATH       => $uploadFileStub1->getFormattedFilePath(),
+                    UploadFile::FILE_FORMAT            => UploadFileStub1::FILE_FORMAT,
+                    UploadFile::SOURCE_LOCALE          => UploadFileStub1::SOURCE_LOCALE,
+                    UploadFile::IS_KEEPING_ALL_STRINGS => UploadFileStub1::IS_KEEPING_ALL_STRINGS,
                 ],
             ],
             ClientMock::$parameters
@@ -71,16 +72,18 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 [
-                    UploadFile::PROJECT_ID => UploadFileStub1::PROJECT_ID,
-                    UploadFile::SOURCE_FILE_PATH => $uploadFileStub1->getFormattedFilePath(),
-                    UploadFile::FILE_FORMAT => UploadFileStub1::FILE_FORMAT,
-                    UploadFile::SOURCE_LOCALE => UploadFileStub1::SOURCE_LOCALE,
+                    UploadFile::PROJECT_ID             => UploadFileStub1::PROJECT_ID,
+                    UploadFile::SOURCE_FILE_PATH       => $uploadFileStub1->getFormattedFilePath(),
+                    UploadFile::FILE_FORMAT            => UploadFileStub1::FILE_FORMAT,
+                    UploadFile::SOURCE_LOCALE          => UploadFileStub1::SOURCE_LOCALE,
+                    UploadFile::IS_KEEPING_ALL_STRINGS => UploadFileStub1::IS_KEEPING_ALL_STRINGS,
                 ],
                 [
-                    UploadFile::PROJECT_ID => UploadFileStub2::PROJECT_ID,
-                    UploadFile::SOURCE_FILE_PATH => $uploadFileStub2->getFormattedFilePath(),
-                    UploadFile::FILE_FORMAT => UploadFileStub2::FILE_FORMAT,
-                    UploadFile::SOURCE_LOCALE => UploadFileStub2::SOURCE_LOCALE,
+                    UploadFile::PROJECT_ID             => UploadFileStub2::PROJECT_ID,
+                    UploadFile::SOURCE_FILE_PATH       => $uploadFileStub2->getFormattedFilePath(),
+                    UploadFile::FILE_FORMAT            => UploadFileStub2::FILE_FORMAT,
+                    UploadFile::SOURCE_LOCALE          => UploadFileStub2::SOURCE_LOCALE,
+                    UploadFile::IS_KEEPING_ALL_STRINGS => UploadFileStub2::IS_KEEPING_ALL_STRINGS
                 ],
             ],
             ClientMock::$parameters
@@ -129,8 +132,8 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
             ClientMock::$parameters,
             [
                 [
-                    ExportFile::PROJECT_ID => ExportFileStub1::PROJECT_ID,
-                    ExportFile::REQUESTED_LOCALE => ExportFileStub1::REQUESTED_LOCALE,
+                    ExportFile::PROJECT_ID                 => ExportFileStub1::PROJECT_ID,
+                    ExportFile::REQUESTED_LOCALE           => ExportFileStub1::REQUESTED_LOCALE,
                     ExportFile::REQUESTED_SOURCE_FILE_NAME => $exportFileStub1->getEncodedSourceFileName(),
                 ],
             ]
@@ -152,13 +155,13 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
             ClientMock::$parameters,
             [
                 [
-                    ExportFile::PROJECT_ID => ExportFileStub1::PROJECT_ID,
-                    ExportFile::REQUESTED_LOCALE => ExportFileStub1::REQUESTED_LOCALE,
+                    ExportFile::PROJECT_ID                 => ExportFileStub1::PROJECT_ID,
+                    ExportFile::REQUESTED_LOCALE           => ExportFileStub1::REQUESTED_LOCALE,
                     ExportFile::REQUESTED_SOURCE_FILE_NAME => $exportFileStub1->getEncodedSourceFileName(),
                 ],
                 [
-                    ExportFile::PROJECT_ID => ExportFileStub2::PROJECT_ID,
-                    ExportFile::REQUESTED_LOCALE => ExportFileStub2::REQUESTED_LOCALE,
+                    ExportFile::PROJECT_ID                 => ExportFileStub2::PROJECT_ID,
+                    ExportFile::REQUESTED_LOCALE           => ExportFileStub2::REQUESTED_LOCALE,
                     ExportFile::REQUESTED_SOURCE_FILE_NAME => $exportFileStub2->getEncodedSourceFileName(),
                 ],
             ]

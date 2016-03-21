@@ -15,6 +15,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
 {
+    const IS_KEEPING_ALL_STRINGS = false;
     const FILE_FORMAT = 'yml';
     const KERNEL_ROOT_DIR = __DIR__.'/../../';
     const PROJECT_DIRECTORY = __DIR__.'/../../../';
@@ -132,13 +133,16 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     private function buildUploadFile1()
     {
-        return new UploadFileImpl(
+        $file = new UploadFileImpl(
             self::PROJECT_ID,
             __DIR__.'/../../Fixtures/Resources/translations/messages.en.yml',
             self::PROJECT_DIRECTORY,
             self::FILE_FORMAT,
             self::SOURCE_LOCALE
         );
+        $file->setIsKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
+
+        return $file;
     }
 
     /**
@@ -146,13 +150,16 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
      */
     private function buildUploadFile2()
     {
-        return new UploadFileImpl(
+        $file = new UploadFileImpl(
             self::PROJECT_ID,
             __DIR__.'/../../Fixtures/Resources/translations/subDirectory/messages.en.yml',
             self::PROJECT_DIRECTORY,
             self::FILE_FORMAT,
             self::SOURCE_LOCALE
         );
+        $file->setIsKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
+
+        return $file;
     }
 
     /**
@@ -184,6 +191,7 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
     {
         $this->service = new TranslationServiceImpl();
         $fileFactory = new FileFactoryImpl();
+        $fileFactory->setIsKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
         $fileFactory->setFileFormat(self::FILE_FORMAT);
         $fileFactory->setKernelRootDir(self::KERNEL_ROOT_DIR);
         $fileFactory->setProjectId(self::PROJECT_ID);
