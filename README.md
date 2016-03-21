@@ -46,6 +46,7 @@ openclassrooms_onesky:
     file_format: %onesky.file_format% #optional, default xliff
     file_paths:
       - %path.to.translations.files.directory%
+    keep_all_strings: false # default true
     
 ```
 
