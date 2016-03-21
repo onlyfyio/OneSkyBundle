@@ -140,7 +140,7 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
             self::FILE_FORMAT,
             self::SOURCE_LOCALE
         );
-        $file->setIsKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
+        $file->setKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
 
         return $file;
     }
@@ -157,7 +157,7 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
             self::FILE_FORMAT,
             self::SOURCE_LOCALE
         );
-        $file->setIsKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
+        $file->setKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
 
         return $file;
     }
@@ -191,7 +191,7 @@ class TranslationServiceImplTest extends \PHPUnit_Framework_TestCase
     {
         $this->service = new TranslationServiceImpl();
         $fileFactory = new FileFactoryImpl();
-        $fileFactory->setIsKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
+        $fileFactory->setKeepingAllStrings(self::IS_KEEPING_ALL_STRINGS);
         $fileFactory->setFileFormat(self::FILE_FORMAT);
         $fileFactory->setKernelRootDir(self::KERNEL_ROOT_DIR);
         $fileFactory->setProjectId(self::PROJECT_ID);

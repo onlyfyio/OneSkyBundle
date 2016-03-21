@@ -64,12 +64,12 @@ class FileFactoryImpl implements FileFactory
             empty($locale) ? $this->sourceLocale : $locale
         );
 
-        $file->setIsKeepingAllStrings($this->isKeepingAllStrings);
+        $file->setKeepingAllStrings($this->isKeepingAllStrings);
 
         return $file;
     }
 
-    public function setIsKeepingAllStrings($isKeepingAllStrings)
+    public function setKeepingAllStrings($isKeepingAllStrings)
     {
         $this->isKeepingAllStrings = $isKeepingAllStrings;
     }

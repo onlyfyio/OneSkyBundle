@@ -65,7 +65,7 @@ abstract class UploadFile extends File
         return $this->sourceLocale;
     }
 
-    public function setIsKeepingAllStrings($isKeepingAllStrings)
+    public function setKeepingAllStrings($isKeepingAllStrings)
     {
         $this->isKeepingAllStrings = $isKeepingAllStrings;
     }
