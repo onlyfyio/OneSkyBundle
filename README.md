@@ -3,7 +3,7 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/87d6eebd-6344-4e30-86a6-71e501a2aa8b/mini.png)](https://insight.sensiolabs.com/projects/87d6eebd-6344-4e30-86a6-71e501a2aa8b)
 [![Coverage Status](https://coveralls.io/repos/github/OpenClassrooms/OneSkyBundle/badge.svg?branch=master)](https://coveralls.io/github/OpenClassrooms/OneSkyBundle?branch=master)
 
-The OneSkyBundle offers integration of the [OneSky Client](https://github.com/onesky/api-library-php5) for common tasks like pulling and pushing translations.  
+The OneSkyBundle offers integration of [OneSky Client](https://github.com/onesky/api-library-php5) for common tasks like pulling and pushing translations.  
 [OneSky](https://www.oneskyapp.com/) is a plateform that provides translations management.
 
 ## Installation
@@ -52,7 +52,7 @@ openclassrooms_onesky:
 
 ## Usage
 ### Pull
-Pull the translations from the OneSky api using the default configuration.
+Pull the translations from the OneSky API using the default configuration.
 
 
 ```bash
@@ -60,21 +60,21 @@ php app/console openclassrooms:one-sky:pull
 ```
 
 #### Options
-##### filePaths
-Source filepath can be set in option.
+##### filePath
+filePath source can be set as an option.
 ```bash
-php app/console openclassrooms:one-sky:pull --filePaths=/path/to/source/files
-php app/console openclassrooms:one-sky:pull --filePaths=/path/to/source/files --filePaths=/path/to/another/source/file
+php app/console openclassrooms:one-sky:pull --filePath=/path/to/source/files
+php app/console openclassrooms:one-sky:pull --filePath=/path/to/source/files --filePath=/path/to/another/source/file
 ```
 ##### locale
-Locale can be set in option
+Locale can be set as an option.
 ```bash
 php app/console openclassrooms:one-sky:pull --locale=fr
 php app/console openclassrooms:one-sky:pull --locale=fr --locale=es
 ```
 
 ### Push
-Push the translations from the OneSky api using the default configuration.
+Push the translations from the OneSky API using the default configuration.
 
 
 ```bash
@@ -82,21 +82,21 @@ php app/console openclassrooms:one-sky:push
 ```
 
 #### Options
-##### filePaths
-Source filepath can be set in option.
+##### filePath
+filePath source can be set as an option.
 ```bash
-php app/console openclassrooms:one-sky:push --filePaths=/path/to/source/files
-php app/console openclassrooms:one-sky:push --filePaths=/path/to/source/files --filePaths=/path/to/another/source/file
+php app/console openclassrooms:one-sky:push --filePath=/path/to/source/files
+php app/console openclassrooms:one-sky:push --filePath=/path/to/source/files --filePath=/path/to/another/source/file
 ```
 ##### locale
-Locale can be set in option
+Locale can be set as an option.
 ```bash
 php app/console openclassrooms:one-sky:push --locale=en
 php app/console openclassrooms:one-sky:push --locale=en --locale=fr
 ```
 
 ### Update
-Pull then push translations from the OneSky api using the default configuration.
+Pull then push translations from the OneSky API using the default configuration.
 
 
 ```bash
@@ -104,7 +104,7 @@ php app/console openclassrooms:one-sky:update
 ```
 
 ### Check translation progress
-Check the translation progress from the OneSky api using the default configuration.
+Check the translation progress from the OneSky API using the default configuration.
 
 
 ```bash
@@ -113,7 +113,7 @@ php app/console openclassrooms:one-sky:check-translation-progress
 
 #### Options
 ##### locale
-Locale can be set in option
+Locale can be set as an option.
 ```bash
 php app/console openclassrooms:one-sky:check-translation-progress --locale=en
 php app/console openclassrooms:one-sky:check-translation-progress --locale=en --locale=fr
