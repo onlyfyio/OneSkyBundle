@@ -112,6 +112,16 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \Guzzle\Http\Exception\ServerErrorResponseException
+     */
+    public function ApiServerError_download_ThrowException()
+    {
+        ClientMock::$downloadedContent = '{"meta":{"status":500,"message":"Something went wrong. Please try again or contact us at support@oneskyapp.com"},"data":{}}';
+        $this->gateway->downloadTranslations([new ExportFileStub1()]);
+    }
+
+    /**
+     * @test
      */
     public function WithoutFile_download_DoNothing()
     {
