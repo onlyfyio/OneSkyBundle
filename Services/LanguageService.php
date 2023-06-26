@@ -7,5 +7,8 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Services;
  */
 interface LanguageService
 {
-    public function getLanguages(array $locales = []): array;
+    /**
+     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
+     */
+    public function getLanguages(array $locales = []);
 }
