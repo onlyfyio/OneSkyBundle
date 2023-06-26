@@ -3,7 +3,7 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\Command;
 
 use OpenClassrooms\Bundle\OneSkyBundle\Model\Language;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use OpenClassrooms\Bundle\OneSkyBundle\Services\LanguageService;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,13 +12,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class CheckTranslationProgressCommand extends ContainerAwareCommand
+class CheckTranslationProgressCommand extends Command
 {
-    const COMMAND_NAME = 'openclassrooms:one-sky:check-translation-progress';
+    public const COMMAND_NAME = 'openclassrooms:one-sky:check-translation-progress';
 
-    const COMMAND_DESCRIPTION = 'Check translations progress';
+    public const COMMAND_DESCRIPTION = 'Check translations progress';
 
-    protected function configure()
+    public function __construct(
+        private readonly LanguageService $languageService,
+    ) {
+        parent::__construct();
+    }
+
+    protected function configure(): void
     {
         $this->setName($this->getCommandName())
             ->setDescription($this->getCommandDescription())
@@ -30,32 +36,26 @@ class CheckTranslationProgressCommand extends ContainerAwareCommand
                 []
             );
     }
-
-    /**
-     * @return string
-     */
-    protected function getCommandName()
+    protected function getCommandName(): string
     {
         return self::COMMAND_NAME;
     }
 
-    protected function getCommandDescription()
+    protected function getCommandDescription(): string
     {
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Check translations progress</info>');
-        $languages = $this->getContainer()
-            ->get('openclassrooms.onesky.services.language_service')
-            ->getLanguages($input->getOption('locale'));
+        $languages = $this->languageService->getLanguages($input->getOption('locale'));
         $table = new Table($output);
         $table
             ->setHeaders(['Locale', 'Progression'])
             ->setRows(
                 array_map(
-                    function (Language $language) {
+                    static function (Language $language) {
                         return [$language->getLocale(), $language->getTranslationProgress()];
                     },
                     $languages
