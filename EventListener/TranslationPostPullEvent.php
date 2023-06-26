@@ -3,14 +3,14 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\EventListener;
 
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
 class TranslationPostPullEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.post_pull';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.post_pull';
 
     /**
      * @var ExportFile[]
@@ -25,16 +25,13 @@ class TranslationPostPullEvent extends Event
         $this->downloadedFiles = $downloadedFiles;
     }
 
-    /**
-     * @return string
-     */
-    public static function getEventName()
+    public static function getEventName(): string
     {
         return self::EVENT_NAME;
     }
 
     /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile[]
+     * @return ExportFile[]
      */
     public function getDownloadedFiles()
     {
