@@ -47,7 +47,7 @@ class PushCommand extends Command
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->handlePushDisplay($output);
         $this->translationService->push(

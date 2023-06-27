@@ -46,7 +46,7 @@ class PullCommand extends Command
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $this->handlePullDisplay($output);
         $this->translationService->pull(
