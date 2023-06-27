@@ -24,11 +24,15 @@ const PROGRESS_BAR_FORMAT = "<comment>%message%</comment>\n %current%/%max% [%ba
  */
 abstract class Command extends SymfonyCommand
 {
-    protected EventDispatcherInterface $eventDispatcher;
     private ProgressBar $progressBar;
     protected ParameterBagInterface $parameters;
     abstract protected function getCommandName(): string;
     abstract protected function getCommandDescription(): string;
+    public function __construct(private readonly EventDispatcherInterface $eventDispatcher, $name= null)
+    {
+        parent::__construct($name);
+    }
+
     protected function handlePullDisplay(OutputInterface $output): void
     {
         $this->eventDispatcher->addListener(

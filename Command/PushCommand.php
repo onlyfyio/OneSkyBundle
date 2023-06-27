@@ -6,6 +6,7 @@ use OpenClassrooms\Bundle\OneSkyBundle\Services\TranslationService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -18,8 +19,9 @@ class PushCommand extends Command
 
     public function __construct(
         private readonly TranslationService $translationService,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct();
+        parent::__construct($this->eventDispatcher);
     }
 
     protected function configure(): void
