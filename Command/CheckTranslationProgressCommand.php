@@ -8,6 +8,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -20,8 +21,9 @@ class CheckTranslationProgressCommand extends Command
 
     public function __construct(
         private readonly LanguageService $languageService,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        parent::__construct();
+        parent::__construct($this->eventDispatcher);
     }
 
     protected function configure(): void
