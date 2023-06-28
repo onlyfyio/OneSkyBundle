@@ -18,20 +18,11 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class FileGatewayImpl implements FileGateway
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
 
-    /**
-     * @var EventDispatcher
-     */
-    private $eventDispatcher;
+    private EventDispatcher $eventDispatcher;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function downloadTranslations(array $files)
+    public function downloadTranslations(array $files): array
     {
         $downloadedFiles = [];
         foreach ($files as $file) {
@@ -50,11 +41,11 @@ class FileGatewayImpl implements FileGateway
      * @throws InvalidContentException
      * @throws NonExistingTranslationException
      */
-    private function downloadTranslation(ExportFile $file)
+    private function downloadTranslation(ExportFile $file): ExportFile
     {
         $this->eventDispatcher->dispatch(
-            TranslationDownloadTranslationEvent::getEventName(),
-            new TranslationDownloadTranslationEvent($file)
+            new TranslationDownloadTranslationEvent($file),
+            TranslationDownloadTranslationEvent::getEventName()
         );
         $downloadedContent = $this->client->translations(self::DOWNLOAD_METHOD, $file->format());
         $this->checkTranslation($downloadedContent, $file);
@@ -100,8 +91,8 @@ class FileGatewayImpl implements FileGateway
     private function uploadTranslation(UploadFile $file)
     {
         $this->eventDispatcher->dispatch(
-            TranslationUploadTranslationEvent::getEventName(),
-            new TranslationUploadTranslationEvent($file)
+            new TranslationUploadTranslationEvent($file),
+            TranslationUploadTranslationEvent::getEventName()
         );
         $this->client->files(self::UPLOAD_METHOD, $file->format());
 

@@ -59,7 +59,7 @@ class TranslationServiceImpl implements TranslationService
      */
     public function update(array $filePaths = [], array $locales = [])
     {
-        $this->eventDispatcher->dispatch(TranslationUpdateEvent::getEventName(), new TranslationUpdateEvent());
+        $this->eventDispatcher->dispatch(new TranslationUpdateEvent(), TranslationUpdateEvent::getEventName());
 
         return [$this->pull($filePaths, $locales), $this->push($filePaths)];
     }
@@ -78,15 +78,15 @@ class TranslationServiceImpl implements TranslationService
         }
 
         $this->eventDispatcher->dispatch(
-            TranslationPrePullEvent::getEventName(),
-            new TranslationPrePullEvent($exportFiles)
+            new TranslationPrePullEvent($exportFiles),
+            TranslationPrePullEvent::getEventName()
         );
 
         $downloadedFiles = $this->fileService->download($exportFiles);
 
         $this->eventDispatcher->dispatch(
-            TranslationPostPullEvent::getEventName(),
-            new TranslationPostPullEvent($downloadedFiles)
+            new TranslationPostPullEvent($downloadedFiles),
+            TranslationPostPullEvent::getEventName()
         );
 
         return $downloadedFiles;
@@ -141,15 +141,15 @@ class TranslationServiceImpl implements TranslationService
         }
 
         $this->eventDispatcher->dispatch(
-            TranslationPrePushEvent::getEventName(),
-            new TranslationPrePushEvent($uploadFiles)
+            new TranslationPrePushEvent($uploadFiles),
+            TranslationPrePushEvent::getEventName()
         );
 
         $uploadedFiles = $this->fileService->upload($uploadFiles);
 
         $this->eventDispatcher->dispatch(
-            TranslationPostPushEvent::getEventName(),
-            new TranslationPostPushEvent($uploadedFiles)
+            new TranslationPostPushEvent($uploadedFiles),
+            TranslationPostPushEvent::getEventName()
         );
 
         return $uploadedFiles;

@@ -2,19 +2,16 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\EventListener;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
 class TranslationUpdateEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.update';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.update';
 
-    /**
-     * @return string
-     */
-    public static function getEventName()
+    public static function getEventName(): string
     {
         return self::EVENT_NAME;
     }

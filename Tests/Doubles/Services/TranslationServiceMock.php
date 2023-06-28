@@ -76,16 +76,16 @@ class TranslationServiceMock implements TranslationService
     public function pull(array $filePaths, array $locales = [])
     {
         $this->eventDispatcher->dispatch(
-            TranslationPrePullEvent::getEventName(),
-            new TranslationPrePullEvent([new ExportFileStub1()])
+            new TranslationPrePullEvent([new ExportFileStub1()]),
+            TranslationPrePullEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationDownloadTranslationEvent::getEventName(),
-            new TranslationDownloadTranslationEvent(new ExportFileStub1())
+            new TranslationDownloadTranslationEvent(new ExportFileStub1()),
+            TranslationDownloadTranslationEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationPostPullEvent::getEventName(),
-            new TranslationPostPullEvent([new ExportFileStub1()])
+            new TranslationPostPullEvent([new ExportFileStub1()]),
+            TranslationPostPullEvent::getEventName()
         );
         self::$pullCalled = true;
         self::$pulledFilePaths = $filePaths;
@@ -98,16 +98,16 @@ class TranslationServiceMock implements TranslationService
     public function push(array $filePaths, array $locales = [])
     {
         $this->eventDispatcher->dispatch(
-            TranslationPrePushEvent::getEventName(),
-            new TranslationPrePushEvent([new UploadFileStub1()])
+            new TranslationPrePushEvent([new UploadFileStub1()]),
+            TranslationPrePushEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationUploadTranslationEvent::getEventName(),
-            new TranslationUploadTranslationEvent(new UploadFileStub1())
+            new TranslationUploadTranslationEvent(new UploadFileStub1()),
+            TranslationUploadTranslationEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationPostPushEvent::getEventName(),
-            new TranslationPostPushEvent([new UploadFileStub1()])
+            new TranslationPostPushEvent([new UploadFileStub1()]),
+            TranslationPostPushEvent::getEventName()
         );
         self::$pushCalled = true;
         self::$pushedFilePaths = $filePaths;

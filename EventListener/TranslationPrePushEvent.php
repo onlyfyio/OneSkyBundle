@@ -3,14 +3,14 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\EventListener;
 
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
 class TranslationPrePushEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.pre_push';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.pre_push';
 
     /**
      * @var UploadFile[]
@@ -25,18 +25,12 @@ class TranslationPrePushEvent extends Event
         $this->uploadFiles = $uploadFiles;
     }
 
-    /**
-     * @return string
-     */
-    public static function getEventName()
+    public static function getEventName(): string
     {
         return self::EVENT_NAME;
     }
 
-    /**
-     * @return int
-     */
-    public function getUploadFilesCount()
+    public function getUploadFilesCount(): int
     {
         return count($this->uploadFiles);
     }

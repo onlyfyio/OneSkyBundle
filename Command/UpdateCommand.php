@@ -2,42 +2,49 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Command;
 
+use OpenClassrooms\Bundle\OneSkyBundle\Services\TranslationService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
 class UpdateCommand extends Command
 {
-    const COMMAND_NAME = 'openclassrooms:one-sky:update';
+    public const COMMAND_NAME = 'openclassrooms:one-sky:update';
 
-    const COMMAND_DESCRIPTION = 'Update translations';
+    public const COMMAND_DESCRIPTION = 'Update translations';
 
-    protected function configure()
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        private readonly TranslationService $translationService,
+        string $projectId
+    ) {
+        parent::__construct($eventDispatcher, $projectId);
+    }
+
+    protected function configure(): void
     {
         $this->setName($this->getCommandName())
             ->setDescription($this->getCommandDescription());
     }
 
-    /**
-     * @return string
-     */
-    protected function getCommandName()
+    protected function getCommandName(): string
     {
         return self::COMMAND_NAME;
     }
 
-    protected function getCommandDescription()
+    protected function getCommandDescription(): string
     {
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $output->writeln("<info>Updating translations</info>\n");
         $this->handlePullDisplay($output);
         $this->handlePushDisplay($output);
-        $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->update();
+        $this->translationService->update();
     }
 }
