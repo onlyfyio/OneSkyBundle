@@ -14,7 +14,6 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 const PROGRESS_BAR_FORMAT = "<comment>%message%</comment>\n %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%";
@@ -26,13 +25,11 @@ abstract class Command extends SymfonyCommand
 {
     private ProgressBar $progressBar;
 
-    protected ParameterBagInterface $parameters;
-
     abstract protected function getCommandName(): string;
 
     abstract protected function getCommandDescription(): string;
 
-    public function __construct(protected EventDispatcherInterface $eventDispatcher, $name= null)
+    public function __construct(protected EventDispatcherInterface $eventDispatcher, protected string $projectId, $name= null)
     {
         parent::__construct($name);
     }
@@ -82,7 +79,7 @@ abstract class Command extends SymfonyCommand
 
     private function getProjectId(): string
     {
-        return $this->parameters->get('openclassrooms_onesky.project_id');
+        return $this->projectId;
     }
 
     private function getProgressBar(): ProgressBar

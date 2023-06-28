@@ -1,7 +1,4 @@
 <container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://symfony.com/schema/dic/services" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-    <parameters>
-        <parameter key="openclassrooms_onesky.project_id">%openclassrooms_onesky.project_id%</parameter>
-    </parameters>
     <services>
         <service id="openclassrooms.onesky.client" class="Onesky\Api\Client">
             <call method="setApiKey">
@@ -88,21 +85,25 @@
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\CheckTranslationProgressCommand" public="true">
             <argument type="service" id="debug.event_dispatcher" />
             <argument type="service" id="openclassrooms.onesky.services.language_service" />
+            <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" />
         </service>
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\PullCommand" public="true">
             <argument type="service" id="debug.event_dispatcher" />
             <argument type="service" id="openclassrooms.onesky.services.translation_service" />
+            <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" />
         </service>
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\PushCommand" public="true">
             <argument type="service" id="debug.event_dispatcher" />
             <argument type="service" id="openclassrooms.onesky.services.translation_service" />
+            <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" />
         </service>
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\UpdateCommand" public="true">
             <argument type="service" id="debug.event_dispatcher" />
             <argument type="service" id="openclassrooms.onesky.services.translation_service" />
+            <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" />
         </service>
     </services>

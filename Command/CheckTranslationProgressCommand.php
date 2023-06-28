@@ -21,9 +21,10 @@ class CheckTranslationProgressCommand extends Command
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        private readonly LanguageService $languageService
+        private readonly LanguageService $languageService,
+        string $projectId
     ) {
-        parent::__construct($eventDispatcher);
+        parent::__construct($eventDispatcher, $projectId);
     }
 
     protected function configure(): void

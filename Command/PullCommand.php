@@ -19,9 +19,10 @@ class PullCommand extends Command
 
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
-        private readonly TranslationService $translationService
+        private readonly TranslationService $translationService,
+        string $projectId
     ) {
-        parent::__construct($eventDispatcher);
+        parent::__construct($eventDispatcher, $projectId);
     }
 
     protected function configure(): void
