@@ -32,7 +32,7 @@ abstract class Command extends SymfonyCommand
 
     abstract protected function getCommandDescription(): string;
 
-    public function __construct(protected readonly EventDispatcherInterface $eventDispatcher, $name= null)
+    public function __construct(protected EventDispatcherInterface $eventDispatcher, $name= null)
     {
         parent::__construct($name);
     }
