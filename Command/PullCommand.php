@@ -6,6 +6,7 @@ use OpenClassrooms\Bundle\OneSkyBundle\Services\TranslationService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -17,9 +18,10 @@ class PullCommand extends Command
     public const COMMAND_DESCRIPTION = 'Pull translations';
 
     public function __construct(
+        EventDispatcherInterface $eventDispatcher,
         private readonly TranslationService $translationService
     ) {
-        parent::__construct($this->eventDispatcher);
+        parent::__construct($eventDispatcher);
     }
 
     protected function configure(): void
