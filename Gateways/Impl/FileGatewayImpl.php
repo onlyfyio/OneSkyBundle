@@ -19,7 +19,9 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 class FileGatewayImpl implements FileGateway
 {
     private Client $client;
+
     private EventDispatcher $eventDispatcher;
+
     public function downloadTranslations(array $files): array
     {
         $downloadedFiles = [];

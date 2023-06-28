@@ -5,7 +5,6 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Command;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\TranslationService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -17,8 +16,7 @@ class UpdateCommand extends Command
     public const COMMAND_DESCRIPTION = 'Update translations';
 
     public function __construct(
-        private readonly TranslationService $translationService,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly TranslationService $translationService
     ) {
         parent::__construct($this->eventDispatcher);
     }
@@ -28,6 +26,7 @@ class UpdateCommand extends Command
         $this->setName($this->getCommandName())
             ->setDescription($this->getCommandDescription());
     }
+
     protected function getCommandName(): string
     {
         return self::COMMAND_NAME;

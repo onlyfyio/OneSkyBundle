@@ -25,10 +25,14 @@ const PROGRESS_BAR_FORMAT = "<comment>%message%</comment>\n %current%/%max% [%ba
 abstract class Command extends SymfonyCommand
 {
     private ProgressBar $progressBar;
+
     protected ParameterBagInterface $parameters;
+
     abstract protected function getCommandName(): string;
+
     abstract protected function getCommandDescription(): string;
-    public function __construct(private readonly EventDispatcherInterface $eventDispatcher, $name= null)
+
+    public function __construct(protected readonly EventDispatcherInterface $eventDispatcher, $name= null)
     {
         parent::__construct($name);
     }
@@ -75,10 +79,12 @@ abstract class Command extends SymfonyCommand
             }
         );
     }
+
     private function getProjectId(): string
     {
         return $this->parameters->get('openclassrooms_onesky.project_id');
     }
+
     private function getProgressBar(): ProgressBar
     {
         return $this->progressBar;
