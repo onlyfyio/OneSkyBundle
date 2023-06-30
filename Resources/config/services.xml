@@ -83,25 +83,25 @@
             </call>
         </service>
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\CheckTranslationProgressCommand" public="true" >
-            <argument type="service" id="debug.event_dispatcher" />
+            <argument type="service" id="debug.event_dispatcher" on-invalid="ignore" />
             <argument type="service" id="openclassrooms.onesky.services.language_service" />
             <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" command="openclassrooms:one-sky:check-translation-progress" />
         </service>
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\PullCommand" public="true">
-            <argument type="service" id="debug.event_dispatcher" />
+            <argument type="service" id="debug.event_dispatcher" on-invalid="ignore" />
             <argument type="service" id="openclassrooms.onesky.services.translation_service" />
             <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" command="openclassrooms:one-sky:pull" />
         </service>
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\PushCommand" public="true">
-            <argument type="service" id="debug.event_dispatcher" />
+            <argument type="service" id="debug.event_dispatcher" on-invalid="ignore" />
             <argument type="service" id="openclassrooms.onesky.services.translation_service" />
             <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" command="openclassrooms:one-sky:push" />
         </service>
         <service id="OpenClassrooms\Bundle\OneSkyBundle\Command\UpdateCommand" public="true">
-            <argument type="service" id="debug.event_dispatcher" />
+            <argument type="service" id="debug.event_dispatcher" on-invalid="ignore" />
             <argument type="service" id="openclassrooms.onesky.services.translation_service" />
             <argument key="$projectId">%openclassrooms_onesky.project_id%</argument>
             <tag name="console.command" command="openclassrooms:one-sky:update" />
