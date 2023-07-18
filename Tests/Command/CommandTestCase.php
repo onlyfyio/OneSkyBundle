@@ -40,7 +40,7 @@ trait CommandTestCase
                 'openclassrooms_onesky.file_paths' => [self::$filePaths],
                 'openclassrooms_onesky.requestedLocales' => self::$locales,
                 'openclassrooms_onesky.project_id' => self::$projectId,
-                'kernel.root_dir' => __DIR__.'/../',
+                'kernel.project_dir' => __DIR__.'/../',
             ],
             [
                 'openclassrooms.onesky.services.language_service' => new LanguageServiceMock(),
