@@ -40,11 +40,13 @@ class UpdateCommand extends Command
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("<info>Updating translations</info>\n");
         $this->handlePullDisplay($output);
         $this->handlePushDisplay($output);
         $this->translationService->update();
+
+        return 0;
     }
 }

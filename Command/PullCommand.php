@@ -49,12 +49,14 @@ class PullCommand extends Command
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->handlePullDisplay($output);
         $this->translationService->pull(
             $input->getOption('filePath'),
             $input->getOption('locale')
         );
+
+        return 0;
     }
 }
