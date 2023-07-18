@@ -43,8 +43,8 @@ class CheckTranslationProgressCommand extends ContainerAwareCommand
     {
         return self::COMMAND_DESCRIPTION;
     }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
+.
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<info>Check translations progress</info>');
         $languages = $this->getContainer()

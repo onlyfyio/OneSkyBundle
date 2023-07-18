@@ -42,12 +42,14 @@ class PullCommand extends Command
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->handlePullDisplay($output);
         $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->pull(
             $input->getOption('filePath'),
             $input->getOption('locale')
         );
+
+        return 0;
     }
 }

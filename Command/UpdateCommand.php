@@ -33,11 +33,13 @@ class UpdateCommand extends Command
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln("<info>Updating translations</info>\n");
         $this->handlePullDisplay($output);
         $this->handlePushDisplay($output);
         $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->update();
+
+        return 0;
     }
 }

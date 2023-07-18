@@ -42,12 +42,14 @@ class PushCommand extends Command
         return self::COMMAND_DESCRIPTION;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->handlePushDisplay($output);
         $this->getContainer()->get('openclassrooms.onesky.services.translation_service')->push(
             $input->getOption('filePath'),
             $input->getOption('locale')
         );
+
+        return 0;
     }
 }
