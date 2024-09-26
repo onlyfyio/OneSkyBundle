@@ -38,7 +38,7 @@ class OpenClassroomsOneSkyExtension extends Extension
     /**
      * @return string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'openclassrooms_onesky';
     }
